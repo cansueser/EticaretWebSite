@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@theme{
+  --color-green-button: #319460;
+}
