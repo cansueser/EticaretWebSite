@@ -2,66 +2,402 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./output.css" rel="stylesheet">
   <title>Shop</title>
 </head>
-<body class= "bg-white">
+<body class="bg-white">
 
-  <div class="flex min-w-screen h-16 bg-white items-center gap-20 justify-between ">
-    <!-- NAME -->
-    <div class="ml-10 w-30 h-full flex items-center justify-center">
-      <h1 class="font-normal text-green-button text-2xl"> LUXE </h1>
-      <h1 class="font-normal text-black text-2xl">TREND</h1>
-    </div>
-    <!-- MENU LİST -->
-    <div class="h-full bg-white flex items-center justify-center ">
-      <ul class = 'flex gap-10 text-black  '>
-        <li><a href="" class ="hover:text-green-button">Ana Sayfa</a></li>
-        <li><a href="" class ="hover:text-green-button">Kadın</a></li>
-        <li><a href="" class ="hover:text-green-button">Erkek</a></li>
-        <li><a href="" class ="hover:text-green-button">Çocuk</a></li>
-        <li><a href="" class ="hover:text-green-button">Aksesuar</a></li>
-        <li><a href="" class ="hover:text-green-button">Teknoloji</a></li>
-      </ul>
-    </div>
-    <!-- MENU RİGHT -->
-    <div class="mr-5 w-40 h-full  items-center justify-center flex gap-5 ml-15 ">
-      <img src="/img/cartIcon.png" alt='cartIcon' class = 'w-7 h-7 hover: cursor-pointer'>
-      <img src="/img/searchIcon.png" alt="searchIcon" class = 'w-6 h-6 hover: cursor-pointer'>
-      <img src="/img/menuIcon.png" alt="menuIcon" class = 'w-6 h-6 hover: cursor-pointer'>
+<!-- HEADER -->
+<div class="flex min-w-full h-16 bg-white items-center justify-between px-4">
+  <!-- NAME -->
+  <div class="ml-4 flex items-center">
+    <h1 class="font-normal text-green-button text-2xl">LUXE</h1>
+    <h1 class="font-normal text-black text-2xl">TREND</h1>
+  </div>
 
+  <!-- MENU LİST -->
+  <div class="hidden md:flex items-center">
+    <ul class="flex gap-6 text-black">
+      <li><a href="#" class="hover:text-green-button">Ana Sayfa</a></li>
+      <li><a href="#" class="hover:text-green-button">Kadın</a></li>
+      <li><a href="#" class="hover:text-green-button">Erkek</a></li>
+      <li><a href="#" class="hover:text-green-button">Çocuk</a></li>
+      <li><a href="#" class="hover:text-green-button">Aksesuar</a></li>
+      <li><a href="#" class="hover:text-green-button">Teknoloji</a></li>
+    </ul>
+  </div>
+
+  <!-- MENU RİGHT -->
+  <div class="mr-4 flex items-center gap-4">
+    <img src="/img/cartIcon.png" alt="Sepet" class="w-6 h-6 hover:cursor-pointer">
+    <img src="/img/searchIcon.png" alt="Arama" class="w-5 h-5 hover:cursor-pointer">
+    <img src="/img/menuIcon.png" alt="Menü" class="w-5 h-5 hover:cursor-pointer">
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="w-full h-[600px] relative bg-[url('/img/BgImage.png')] bg-cover bg-center">
+  <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+    <div>
+      <h5 class="font-normal text-black text-3xl">THE BEST <br><span class="text-green-button text-4xl">LUXETREND</span></h5>
+      <p class="mt-5 text-black text-xl font-normal max-w-2xl mx-auto">
+        LuxeTrend ile modadan elektroniğe, ev yaşamından kozmetiğe kadar aradığın her şey en trend halleriyle bir tık uzağında!
+      </p>
     </div>
   </div>
-  <!--2. DİV BGRESİM -->
-  <div class = "w-full h-[600px] flex items-center justify-center bg-[url('/img/BgImage.png')] bg-repeat-x bg-cover ">
-
-    <div class = "absolute top-40 left-30 w-full h-full items-center justify-center">
-      <h5 class=" ml-1 font-normal text-black text-3xl"> THE BEST <br> <span class="text-green-button text-4xl">LUXETREND</span></h5>
-      <p class="mt-5 ml-1 text text-1xl font-normal text-black">
-        LuxeTrend ile modadan elektroniğe, ev yaşamından kozmetiğe <br> kadar aradığın her şey en trend halleriyle bir tık uzağında!
-      </p>
-    </div>
 </div>
-  <!--3.DİV PRODUCT -->
-  <div class = "mt-10 ml-10 grid grid-cols-5 gap-x-0 gap-y-1 items-center justify-items-center">
-    <div class ="top-6 flex mr-0 bg-red-400" >
-      <p class="font-normal text-xl text-black">
-        en çok satanlar <br> the best productions from us <br>, teknoloji ve daha fazlasında en çok satanları keşfet! Trendleri yakala, fırsatları kaçırma
-      </p>
-    </div>
 
-    <div>
-      <img src="/img/shoe.png"  class = 'w-50 h-60 hover: cursor-pointer'>
+<!--3.DİV PRODUCT -->
+<div class="mt-8 ml-20 grid grid-cols-5 gap-x-0 gap-y-1 items-center justify-items-center">
+  <div class="ml-5 mr-18 w-90">
+    <p class="text-black">
+      <span class="font-bold text-2xl">En Çok Satanlar & Beğenilenler</span><br>
+      <span class="text-green-button font-['Dancing_Script'] italic leading-tight md:leading-snug max-w-xs md:max-w-md block mt-2">
+        Türkiye'nin en iyi yapımları. <br>
+        <span class="text-black font-sans not-italic text-xs block mt-2 leading-4">
+          Müşterilerimizin en çok tercih ettiği ve en yüksek puan alan ürünleri keşfedin! Kalite, indirimler ve kullanıcı yorumlarıyla öne çıkan bu ürünleri kaçırmayın.
+        </span>
+      </span>
+    </p>
+  </div>
+
+  <!-- Product1 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
     </div>
     <div>
-      <img src="/img/shoe.png" class = 'w-50 h-60 hover: cursor-pointer'>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
     </div>
     <div>
-      <img src="/img/shoe.png" class = 'w-50 h-60 hover: cursor-pointer'>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product2 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
     </div>
     <div>
-      <img src="/img/shoe.png" class = 'w-50 h-60 hover: cursor-pointer'>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
     </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product3 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+</div>
+
+
+<!--4.DİV  -->
+<div class=" mt-[100px] flex gap-0 items-center justify-center">
+  <!-- summer -->
+  <div class=" relative w-120 h-100">
+    <img src="/img/summerIcon1.png" class="w-full h-full ">
+    <div class="absolute inset-0 flex items-center justify-center">
+      <img src="/img/sum2.png" class="w-[400px] h-[400px]">
+    </div>
+  </div>
+  <div class="relative w-120 h-100">
+    <img src="/img/summerIcon2.png" class="w-full h-full ">
+    <div class="absolute inset-0 flex items-center justify-center">
+      <img src="/img/SummerInIcon2-min.png" class="w-[400px] h-[400px]">
+    </div>
+  </div>
+  <div class=" relative w-120 h-100">
+    <img src="/img/summerIcon1.png" class="w-full h-full">
+    <div class="absolute inset-0 flex items-center justify-center">
+      <img src="/img/NewFashionStylesIcon.png" class="w-[400px] h-[400px]">
+    </div>
+  </div>
+</div>
+
+<!--5.DİV  -->
+
+<div class="mt-[20px] ml-[60px] grid grid-cols-5 gap-x-0 gap-y-[100px] items-center justify-items-center">
+  <!-- Product1 -->
+  <div class="relative w-50 h-60 ">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product2 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product3 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+  <!-- Product4 -->
+  <div class="relative w-50 h-60">
+    <img src="/img/shoe.png" class="w-full h-full hover:cursor-pointer">
+    <div class="absolute top-2 right-2 flex flex-col gap-2">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer">
+    </div>
+    <div>
+      <p class="text-[14px]">bordo Rengi Topuklu Ayakkabı</p>
+    </div>
+    <div>
+      <p class="text-green-button">250 TL</p>
+    </div>
+    <div class="flex mr-[120px] justify-center gap-1 mt-1">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/star.png" class="w-3 h-3">
+      <img src="/img/starEmpty.png" class="w-3 h-3">
+    </div>
+  </div>
+
+
+
 </div>
 
 
