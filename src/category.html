@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="./output.css" rel="stylesheet">
+  <title>KATEGORİ</title>
+</head>
+<body class="bg-white">
+<div class="w-full">
+  <!-- Top Bar -->
+  <div class="flex min-w-full h-30 bg-white items-center justify-between px-4 shadow-md border border-gray-200">
+    <!-- NAME -->
+    <div class="ml-4 flex items-center">
+      <h1 class="font-normal text-green-button text-2xl">LUXE</h1>
+      <h1 class="font-normal text-black text-2xl">TREND</h1>
+    </div>
+
+    <!-- MENU LİST -->
+    <div class="hidden md:flex items-center">
+      <ul class="flex gap-6 text-black">
+        <li><a href="#" class="hover:text-green-button">Ana Sayfa</a></li>
+        <li><a href="#" class="hover:text-green-button text-green-button">Kadın</a></li>
+        <li><a href="#" class="hover:text-green-button">Erkek</a></li>
+        <li><a href="#" class="hover:text-green-button">Çocuk</a></li>
+        <li><a href="#" class="hover:text-green-button">Aksesuar</a></li>
+        <li><a href="#" class="hover:text-green-button">Teknoloji</a></li>
+      </ul>
+    </div>
+
+    <!-- MENU RİGHT -->
+    <div class="mr-4 flex items-center gap-4">
+      <img src="/img/cartIcon.png" alt="Sepet" class="w-6 h-6 hover:cursor-pointer">
+      <img src="/img/searchIcon.png" alt="Arama" class="w-5 h-5 hover:cursor-pointer">
+      <img src="/img/menuIcon.png" alt="Menü" class="w-5 h-5 hover:cursor-pointer">
+    </div>
+  </div>
+  <!-- 2.DİV -->
+  <div class="mt-2.5 flex items-start p-6 ml-24 mr-24">
+    <!-- Sol Taraf Kategori -->
+    <div class=" mr-20 flex ">
+      <!-- Genişletilmiş Filtre Bölümü -->
+      <div class="w-72 bg-white p-6 border-r border-gray-200 shadow-sm ">
+        <!-- Kategoriler -->
+        <div class="mb-8">
+          <h3 class="font-bold text-lg mb-4 cursor-default">KATEGORİLER</h3>
+          <ul class="space-y-3">
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Aksesuar</span>
+                <span class="text-gray-500">(15)</span>
+              </div>
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Elbiseler</span>
+                <span class="text-gray-500">(50)</span>
+              </div>
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Kadın</span>
+                <span class="text-gray-500">(150)</span>
+              </div>
+
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Erkek</span>
+                <span class="text-gray-500">(150)</span>
+              </div>
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Kol Saati</span>
+                <span class="text-gray-500">(150)</span>
+              </div>
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Giyim</span>
+                <span class="text-gray-500">(150)</span>
+              </div>
+            </li>
+
+            <li class="group">
+              <div class="flex justify-between items-center cursor-pointer py-1">
+                <span class="group-hover:text-black font-medium">Çantalar</span>
+                <span class="text-gray-500">(150)</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Fiyat Filtresi -->
+        <div class="mb-8">
+          <h3 class="font-bold text-lg mb-4 cursor-default">Fiyat Filtresi</h3>
+          <div class="flex justify-between mb-2 text-sm">
+            <span>100 TL</span>
+            <span>3000 TL</span>
+          </div>
+          <input type="range" min="10" max="3000"
+                 class="w-full h-1.5 bg-gray-200 rounded-full appearance-none cursor-pointer accent-green-button">
+        </div>
+
+        <!-- Beden Filtresi -->
+        <div>
+          <h3 class="font-bold text-lg mb-4 cursor-default">BEDEN</h3>
+          <div class="grid grid-cols-5 gap-2">
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button  hover:text-white transition text-sm">XS</button>
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button hover:text-white transition text-sm">S</button>
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button  hover:text-white transition text-sm">M</button>
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button  hover:text-white transition text-sm">L</button>
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button  hover:text-white transition text-sm">XL</button>
+            <button class="border border-gray-300 py-1.5 px-2 hover:bg-green-button  hover:text-white transition text-sm">XXL</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sağ Taraf - Ürünler -->
+    <div class="w-full flex flex-col h-full">
+      <!-- Product  -->
+      <div class ="w-full grid grid-cols-4 gap-9 h-full">
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+        <div class="relative w-full h-full group">
+          <img src="/img/shoe.png" class="w-full h-72 hover:cursor-pointer object-cover">
+          <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+            <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+          </div>
+
+          <div class="mt-2">
+            <p class="text-[14px] font-medium">Bordo Rengi Topuklu Ayakkabı</p>
+          </div>
+          <div>
+            <p class="text-green-600 font-bold">250 TL</p>
+          </div>
+          <div class="flex gap-1 mt-1">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/star.png" class="w-3 h-3" alt="Yıldız">
+            <img src="/img/starEmpty.png" class="w-3 h-3" alt="Yıldız">
+          </div>
+        </div>
+      </div>
+      <div class = "flex w-full h-8 items-center justify-center mt-5 border-y-[1px] border-y-gray-200">
+        <div class="flex items-center gap-3 w-[300px] h-full border-x-[1px] border-x-gray-200 font-light">
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">1</button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">2</button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">3</button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">4</button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">...</button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">></button>
+          <button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button">>></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <footer class=" mt-8 bg-gray-100 text-gray-700 py-2 pb-0">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-50 mb-5">
+      <!-- TESLİMAT BİLGİSİ -->
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-gray-900">BİLGİ</h3>
+        <h4 class="font-semibold mb-2">TESLİMAT BİLGİSİ</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-green-button">İndirimler</a></li>
+          <li><a href="#" class="hover:text-green-button">Site Haritası</a></li>
+          <li><a href="#" class="hover:text-green-button">İade Politikası</a></li>
+          <li><a href="#" class="hover:text-green-button">Hesabım</a></li>
+        </ul>
+      </div>
+
+      <!-- HESABIM -->
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-gray-900">HESABIM</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-green-button">Giriş Yap</a></li>
+          <li><a href="#" class="hover:text-green-button">Sepetim</a></li>
+          <li><a href="#" class="hover:text-green-button">İstek Listem</a></li>
+          <li><a href="#" class="hover:text-green-button">Ödeme</a></li>
+          <li><a href="#" class="hover:text-green-button">Sipariş Takibi</a></li>
+        </ul>
+      </div>
+
+      <!-- YARDIM -->
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-gray-900">YARDIM</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="hover:text-green-button">SSS</a></li>
+          <li><a href="#" class="hover:text-green-button">Kargo</a></li>
+          <li><a href="#" class="hover:text-green-button">İletişim</a></li>
+          <li><a href="#" class="hover:text-green-button">Gizlilik Politikası</a></li>
+        </ul>
+      </div>
+
+      <!-- İLETİŞİM BİLGİLERİ -->
+      <div>
+        <h3 class="text-lg font-bold mb-4 text-gray-900">İLETİŞİM BİLGİLERİ</h3>
+        <address class="not-italic space-y-2">
+          <div class="flex items-start gap-2">
+            <img src="/img/earthIcon.png" alt="Adres" class="w-4 h-4 mt-1">
+            <p>Cumhuriyet cd, Çorum Merkez, Türkiye.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="/img/phoneIcon.png" alt="Telefon" class="w-4 h-4">
+            <a href="tel:+905455661190" class="hover:text-green-button">+90 545 566 11 90</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <img src="/img/mailIcon.png" alt="E-posta" class="w-4 h-4">
+            <a href="mailto:cansueser@gmail.com" class="hover:text-green-button">cansueser@gmail.com</a>
+          </div>
+        </address>
+      </div>
+    </div>
+
+    <div class="py-4 px-4 text-center bg-gray-800">
+      <p class="text-center text-gray-400 text-xs" >© 2025 Tüm Hakları Saklıdır. | E-Ticaret Siteniz -Tasarım Cansu Eser</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
