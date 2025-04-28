@@ -7,6 +7,115 @@
     <link rel="stylesheet" href="admin.css">
     <!-- Font Awesome CDN eklendi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2d6a4f;
+            --primary-light: #40916c;
+            --secondary-color: #333333;
+            --light-color: #d8f3dc;
+            --gray-color: #6c757d;
+            --dark-gray: #343a40;
+            --light-gray: #e9ecef;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .sidebar {
+            background-color: var(--primary-light);
+            color: #fff;
+        }
+        
+        .sidebar-menu a {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .sidebar-menu a.active {
+            background-color: var(--gray-color);
+            color: #fff;
+        }
+        
+        .table th {
+            background-color: var(--light-gray);
+            color: var(--secondary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+        
+        .action-button {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+            margin-right: 6px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .edit-button {
+            background-color: var(--primary-color);
+        }
+        
+        .edit-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .delete-button {
+            background-color: var(--gray-color);
+        }
+        
+        .delete-button:hover {
+            background-color: var(--dark-gray);
+            transform: translateY(-2px);
+        }
+        
+        .color-item {
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 5px;
+            cursor: pointer;
+            border: 1px solid #dee2e6;
+        }
+        
+        .size-item {
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid #dee2e6;
+            margin-right: 5px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .size-item:hover, .size-item.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -41,12 +150,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="customers.html">
-                        <i class="fas fa-users"></i>
-                        Müşteriler
-                    </a>
-                </li>
-                <li>
                     <a href="../index.html">
                         <i class="fas fa-sign-out-alt"></i>
                         Çıkış
@@ -58,7 +161,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="page-header">
-                <h1>Ürün Yönetimi</h1>
+                <h1 style="color: var(--secondary-color);">Ürün Paneli</h1>
                 <button id="addProductBtn" class="btn btn-primary">
                     <i class="fas fa-plus mr-2"></i> Yeni Ürün Ekle
                 </button>
@@ -66,9 +169,9 @@
 
             <!-- Ürün Ekleme Formu -->
             <div class="card" id="productForm" style="display: none;">
-                <div class="card-header">
-                    <h2>Yeni Ürün Ekle</h2>
-                    <button id="closeFormBtn" class="btn btn-danger">
+                <div class="card-header" style="background-color: white; border-bottom: 1px solid var(--light-gray);">
+                    <h2 style="color: var(--secondary-color); font-size: 1.25rem; margin: 0;">Yeni Ürün Ekle</h2>
+                    <button id="closeFormBtn" class="btn" style="background-color: #6c757d; color: white; padding: 4px 8px;">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -76,143 +179,108 @@
                     <form id="newProductForm">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div class="form-group">
-                                <label for="productName">Ürün Adı</label>
+                                <label for="productName" style="color: var(--secondary-color);">Ürün Adı</label>
                                 <input type="text" id="productName" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="productSKU">Ürün Kodu (SKU)</label>
+                                <label for="productSKU" style="color: var(--secondary-color);">Ürün Kodu (SKU)</label>
                                 <input type="text" id="productSKU" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="productCategory">Kategori</label>
+                            <label for="productCategory" style="color: var(--secondary-color);">Kategori</label>
                             <select id="productCategory" class="form-control" required>
                                 <option value="">Kategori Seçin</option>
-                                <option value="1">Kadın</option>
-                                <option value="5">- Yazlık Elbiseler</option>
-                                <option value="2">Erkek</option>
-                                <option value="6">- Gömlekler</option>
+                                <option value="1">Yazlık Elbiseler</option>
+                                <option value="2">Gömlekler</option>
                                 <option value="3">Çocuk</option>
                                 <option value="4">Aksesuar</option>
+                                <option value="5">Ayakkabı</option>
+                                <option value="6">Çanta</option>
                             </select>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label for="productPrice">Fiyat (₺)</label>
-                                <input type="number" id="productPrice" step="0.01" class="form-control" required>
+                        <div class="form-group">
+                            <label for="productPrice" style="color: var(--secondary-color);">Fiyat (₺)</label>
+                            <input type="number" id="productPrice" step="0.01" class="form-control" required>
+                        </div>
+
+                        <!-- Renkler Ekleme Bölümü -->
+                        <div class="form-group">
+                            <label style="color: var(--secondary-color);">Renkler</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                                <div class="color-item" style="background-color: #000000;" title="Siyah"></div>
+                                <div class="color-item" style="background-color: #ffffff;" title="Beyaz"></div>
+                                <div class="color-item" style="background-color: #ff0000;" title="Kırmızı"></div>
+                                <div class="color-item" style="background-color: #0000ff;" title="Mavi"></div>
+                                <div class="color-item" style="background-color: #008000;" title="Yeşil"></div>
+                                <button type="button" id="addColorBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color); font-size: 0.9rem; padding: 4px 10px;">
+                                    <i class="fas fa-plus"></i> Renk Ekle
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label for="productDiscount">İndirim Oranı (%)</label>
-                                <input type="number" id="productDiscount" min="0" max="100" class="form-control" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="productStock">Stok Miktarı</label>
-                                <input type="number" id="productStock" class="form-control" required>
+                        </div>
+
+                        <!-- Bedenler Ekleme Bölümü -->
+                        <div class="form-group">
+                            <label style="color: var(--secondary-color);">Bedenler</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                                <span class="size-item active">XS</span>
+                                <span class="size-item active">S</span>
+                                <span class="size-item active">M</span>
+                                <span class="size-item active">L</span>
+                                <span class="size-item">XL</span>
+                                <span class="size-item">XXL</span>
+                                <button type="button" id="addSizeBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color); font-size: 0.9rem; padding: 4px 10px;">
+                                    <i class="fas fa-plus"></i> Beden Ekle
+                                </button>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="productDescription">Ürün Açıklaması</label>
+                            <label for="productStock" style="color: var(--secondary-color);">Stok Miktarı</label>
+                            <input type="number" id="productStock" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription" style="color: var(--secondary-color);">Ürün Açıklaması</label>
                             <textarea id="productDescription" class="form-control" rows="5"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="productImages">Ürün Görselleri (Çoklu seçim yapabilirsiniz)</label>
+                            <label for="productImages" style="color: var(--secondary-color);">Ürün Görselleri (Çoklu seçim yapabilirsiniz)</label>
                             <input type="file" id="productImages" class="form-control" multiple>
                         </div>
 
                         <div class="form-group">
-                            <label>Ürün Özellikleri</label>
-                            <div id="productFeatures" style="border: 1px solid #d1d3e2; padding: 15px; border-radius: 0.35rem; margin-bottom: 10px;">
+                            <label style="color: var(--secondary-color);">Ürün Özellikleri</label>
+                            <div id="productFeatures" style="border: 1px solid #d1d3e2; padding: 15px; border-radius: 4px; margin-bottom: 10px;">
                                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                                     <input type="text" placeholder="Özellik" class="form-control">
                                     <input type="text" placeholder="Değer" class="form-control">
-                                    <button type="button" class="btn btn-danger feature-remove" style="margin-left: 5px;"><i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn" style="background-color: #6c757d; color: white;"><i class="fas fa-trash"></i></button>
                                 </div>
                             </div>
-                            <button type="button" id="addFeatureBtn" class="btn btn-secondary"><i class="fas fa-plus mr-2"></i> Özellik Ekle</button>
+                            <button type="button" id="addFeatureBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color);">
+                                <i class="fas fa-plus mr-2"></i> Özellik Ekle
+                            </button>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="productFeatured" checked> Öne Çıkan Ürün
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="productStatus" checked> Aktif
-                                </label>
-                            </div>
-                        </div>
-
-                        <div style="text-align: right;">
-                            <button type="button" id="cancelProductBtn" class="btn btn-secondary mr-2">İptal</button>
-                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        <div style="text-align: right; margin-top: 20px;">
+                            <button type="button" id="cancelProductBtn" class="btn" style="background-color: #6c757d; color: white; margin-right: 10px;">İptal</button>
+                            <button type="submit" class="btn" style="background-color: var(--primary-color); color: white;">Kaydet</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Ürün Filtresi -->
-            <div class="card" style="margin-bottom: 20px;">
-                <div class="card-header">
-                    <h2>Ürün Filtreleme</h2>
-                    <button class="btn btn-info" id="toggleFilterBtn">Filtreler <i class="fas fa-filter"></i></button>
-                </div>
-                <div class="card-body" id="filterSection" style="display: none;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
-                        <div class="form-group">
-                            <label>Kategori</label>
-                            <select class="form-control">
-                                <option value="">Tümü</option>
-                                <option value="1">Kadın</option>
-                                <option value="2">Erkek</option>
-                                <option value="3">Çocuk</option>
-                                <option value="4">Aksesuar</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Fiyat Aralığı</label>
-                            <div style="display: flex; gap: 10px;">
-                                <input type="number" placeholder="Min" class="form-control">
-                                <input type="number" placeholder="Max" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Stok Durumu</label>
-                            <select class="form-control">
-                                <option value="">Tümü</option>
-                                <option value="instock">Stokta Var</option>
-                                <option value="lowstock">Azalan Stok</option>
-                                <option value="outofstock">Tükendi</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Durum</label>
-                            <select class="form-control">
-                                <option value="">Tümü</option>
-                                <option value="1">Aktif</option>
-                                <option value="0">Pasif</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="text-align: right; margin-top: 15px;">
-                        <button class="btn btn-secondary mr-2">Sıfırla</button>
-                        <button class="btn btn-primary">Filtrele</button>
-                    </div>
-                </div>
-            </div>
-
             <!-- Ürün Listesi -->
             <div class="card">
-                <div class="card-header">
-                    <h2>Ürünler</h2>
+                <div class="card-header" style="background-color: white; border-bottom: 1px solid var(--light-gray);">
+                    <h2 style="color: var(--secondary-color); font-size: 1.25rem; margin: 0;">Ürünler</h2>
                     <div style="display: flex; gap: 10px;">
                         <input type="text" placeholder="Ürün ara..." class="form-control" style="width: 250px;">
-                        <button class="btn btn-primary">Ara</button>
+                        <button class="btn" style="background-color: var(--primary-color); color: white;">Ara</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -225,80 +293,148 @@
                                     <th>Ürün Adı</th>
                                     <th>Kategori</th>
                                     <th>Fiyat</th>
-                                    <th>Stok</th>
-                                    <th>Durum</th>
-                                    <th>İşlemler</th>
+                                    <th>Bedenler</th>
+                                    <th>Renkler</th>
+                                    <th>Düzenle ve Sil</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>
+                                        <img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                                    </td>
                                     <td>Kadın Yazlık Elbise</td>
                                     <td>Yazlık Elbiseler</td>
-                                    <td>₺459.99</td>
-                                    <td>25</td>
-                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    <td>459.99 TL</td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">XS</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">S</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">M</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #ff0000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>
+                                        <img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                                    </td>
                                     <td>Erkek Gömlek</td>
                                     <td>Gömlekler</td>
-                                    <td>₺349.99</td>
-                                    <td>0</td>
-                                    <td><span style="background-color: #e74a3b; color: white; padding: 3px 8px; border-radius: 4px;">Tükendi</span></td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    <td>349.99 TL</td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">M</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">L</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">XL</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #0000ff; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #ffffff; width: 15px; height: 15px;"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>
+                                        <img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                                    </td>
                                     <td>Çocuk T-shirt</td>
                                     <td>Çocuk</td>
-                                    <td>₺129.99</td>
-                                    <td>45</td>
-                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    <td>129.99 TL</td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">3-4 Yaş</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">5-6 Yaş</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #008000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #ffff00; width: 15px; height: 15px;"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>
+                                        <img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                                    </td>
                                     <td>Kadın Çanta</td>
                                     <td>Aksesuar</td>
-                                    <td>₺599.99</td>
-                                    <td>5</td>
-                                    <td><span style="background-color: #f6c23e; color: white; padding: 3px 8px; border-radius: 4px;">Az Stok</span></td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    <td>599.99 TL</td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">Standart</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #a52a2a; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>
+                                        <img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                                    </td>
                                     <td>Erkek Ayakkabı</td>
-                                    <td>Erkek</td>
-                                    <td>₺799.99</td>
-                                    <td>12</td>
-                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    <td>Ayakkabı</td>
+                                    <td>799.99 TL</td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">40</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">41</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">42</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">43</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #8b4513; width: 15px; height: 15px;"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
+                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -306,22 +442,25 @@
                     </div>
 
                     <!-- Sayfalama -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-                        <div>
-                            Toplam 86 üründen 1-5 arası gösteriliyor
-                        </div>
-                        <div>
-                            <div class="pagination" style="display: flex; gap: 5px;">
-                                <button class="btn btn-secondary" disabled>&laquo;</button>
-                                <button class="btn btn-primary">1</button>
-                                <button class="btn btn-secondary">2</button>
-                                <button class="btn btn-secondary">3</button>
-                                <button class="btn btn-secondary">&raquo;</button>
-                            </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <div class="pagination" style="display: inline-flex; gap: 5px;">
+                            <button class="btn" style="background-color: #e9ecef; color: var(--secondary-color); border: none;" disabled>&laquo;</button>
+                            <button class="btn" style="background-color: var(--primary-color); color: white; border: none;">1</button>
+                            <button class="btn" style="background-color: #e9ecef; color: var(--secondary-color); border: none;">2</button>
+                            <button class="btn" style="background-color: #e9ecef; color: var(--secondary-color); border: none;">3</button>
+                            <button class="btn" style="background-color: #e9ecef; color: var(--secondary-color); border: none;">&raquo;</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Toast Mesajı -->
+    <div id="toast" style="position: fixed; top: 20px; right: 20px; background-color: var(--primary-color); color: white; padding: 15px; border-radius: 4px; z-index: 1000; display: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Admin çıkış yaptı!</span>
         </div>
     </div>
 
@@ -346,18 +485,6 @@
             const cancelProductBtn = document.getElementById('cancelProductBtn');
             const newProductForm = document.getElementById('newProductForm');
 
-            // Filtre bölümü toggle işlevi
-            const toggleFilterBtn = document.getElementById('toggleFilterBtn');
-            const filterSection = document.getElementById('filterSection');
-
-            toggleFilterBtn.addEventListener('click', function() {
-                if(filterSection.style.display === 'none') {
-                    filterSection.style.display = 'block';
-                } else {
-                    filterSection.style.display = 'none';
-                }
-            });
-
             addProductBtn.addEventListener('click', function() {
                 productForm.style.display = 'block';
             });
@@ -380,18 +507,68 @@
                 featureRow.innerHTML = `
                     <input type="text" placeholder="Özellik" class="form-control">
                     <input type="text" placeholder="Değer" class="form-control">
-                    <button type="button" class="btn btn-danger feature-remove" style="margin-left: 5px;"><i class="fas fa-trash"></i></button>
+                    <button type="button" class="btn" style="background-color: #6c757d; color: white;"><i class="fas fa-trash"></i></button>
                 `;
                 productFeatures.appendChild(featureRow);
 
                 // Silme butonları için olay dinleyicileri
-                const removeButtons = document.querySelectorAll('.feature-remove');
-                removeButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        this.parentElement.remove();
+                const removeButtons = document.querySelectorAll('.btn .fa-trash').parentElement;
+                if (removeButtons) {
+                    removeButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            this.parentElement.remove();
+                        });
+                    });
+                }
+            });
+
+            // Beden ekleme işlevselliği
+            const sizeItems = document.querySelectorAll('.size-item:not(#addSizeBtn)');
+            if (sizeItems) {
+                sizeItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        this.classList.toggle('active');
                     });
                 });
-            });
+            }
+
+            // Renk ekleme butonu için modal yapısı
+            const addColorBtn = document.getElementById('addColorBtn');
+            if (addColorBtn) {
+                addColorBtn.addEventListener('click', function() {
+                    const colorPicker = document.createElement('input');
+                    colorPicker.type = 'color';
+                    colorPicker.click();
+                    
+                    colorPicker.addEventListener('input', function() {
+                        const colorContainer = document.querySelector('.form-group .color-item').parentElement;
+                        const newColor = document.createElement('div');
+                        newColor.className = 'color-item';
+                        newColor.style.backgroundColor = this.value;
+                        newColor.title = this.value;
+                        colorContainer.insertBefore(newColor, addColorBtn);
+                    });
+                });
+            }
+
+            // Beden ekleme butonu için modal yapısı
+            const addSizeBtn = document.getElementById('addSizeBtn');
+            if (addSizeBtn) {
+                addSizeBtn.addEventListener('click', function() {
+                    const sizeInput = prompt('Yeni beden değeri giriniz:');
+                    if (sizeInput && sizeInput.trim() !== '') {
+                        const sizeContainer = document.querySelector('.form-group .size-item').parentElement;
+                        const newSize = document.createElement('span');
+                        newSize.className = 'size-item active';
+                        newSize.textContent = sizeInput.trim();
+                        sizeContainer.insertBefore(newSize, addSizeBtn);
+                        
+                        newSize.addEventListener('click', function() {
+                            this.classList.toggle('active');
+                        });
+                    }
+                });
+            }
 
             newProductForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -402,12 +579,10 @@
                     sku: document.getElementById('productSKU').value,
                     category: document.getElementById('productCategory').value,
                     price: document.getElementById('productPrice').value,
-                    discount: document.getElementById('productDiscount').value,
                     stock: document.getElementById('productStock').value,
                     description: document.getElementById('productDescription').value,
-                    featured: document.getElementById('productFeatured').checked,
-                    status: document.getElementById('productStatus').checked
-                    // Görseller ve özellikler de burada toplanabilir
+                    colors: Array.from(document.querySelectorAll('.color-item')).map(color => color.style.backgroundColor),
+                    sizes: Array.from(document.querySelectorAll('.size-item.active')).map(size => size.textContent)
                 };
 
                 console.log('Ürün kaydedildi:', formData);
@@ -418,6 +593,23 @@
 
                 // Başarı mesajı (gerçek uygulamada API yanıtına göre)
                 alert('Ürün başarıyla eklendi!');
+            });
+
+            // Çıkış yapma işlemi için toast mesajı
+            const logoutLink = document.querySelector('.sidebar-menu a[href="../index.html"]');
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Toast mesajını göster
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                
+                // 1.5 saniye sonra kaybolacak
+                setTimeout(function() {
+                    toast.style.display = 'none';
+                    // Yönlendirme yap
+                    window.location.href = '../index.html';
+                }, 1500);
             });
         });
     </script>
