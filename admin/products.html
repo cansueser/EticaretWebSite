@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Ürünler</title>
+    <link rel="stylesheet" href="admin.css">
+    <!-- Font Awesome CDN eklendi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>E-Ticaret Admin</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="categories.html">
+                        <i class="fas fa-list"></i>
+                        Kategoriler
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html" class="active">
+                        <i class="fas fa-box"></i>
+                        Ürünler
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html">
+                        <i class="fas fa-shopping-cart"></i>
+                        Siparişler
+                    </a>
+                </li>
+                <li>
+                    <a href="customers.html">
+                        <i class="fas fa-users"></i>
+                        Müşteriler
+                    </a>
+                </li>
+                <li>
+                    <a href="../index.html">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1>Ürün Yönetimi</h1>
+                <button id="addProductBtn" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i> Yeni Ürün Ekle
+                </button>
+            </div>
+
+            <!-- Ürün Ekleme Formu -->
+            <div class="card" id="productForm" style="display: none;">
+                <div class="card-header">
+                    <h2>Yeni Ürün Ekle</h2>
+                    <button id="closeFormBtn" class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <form id="newProductForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label for="productName">Ürün Adı</label>
+                                <input type="text" id="productName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productSKU">Ürün Kodu (SKU)</label>
+                                <input type="text" id="productSKU" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productCategory">Kategori</label>
+                            <select id="productCategory" class="form-control" required>
+                                <option value="">Kategori Seçin</option>
+                                <option value="1">Kadın</option>
+                                <option value="5">- Yazlık Elbiseler</option>
+                                <option value="2">Erkek</option>
+                                <option value="6">- Gömlekler</option>
+                                <option value="3">Çocuk</option>
+                                <option value="4">Aksesuar</option>
+                            </select>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label for="productPrice">Fiyat (₺)</label>
+                                <input type="number" id="productPrice" step="0.01" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productDiscount">İndirim Oranı (%)</label>
+                                <input type="number" id="productDiscount" min="0" max="100" class="form-control" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="productStock">Stok Miktarı</label>
+                                <input type="number" id="productStock" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription">Ürün Açıklaması</label>
+                            <textarea id="productDescription" class="form-control" rows="5"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productImages">Ürün Görselleri (Çoklu seçim yapabilirsiniz)</label>
+                            <input type="file" id="productImages" class="form-control" multiple>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ürün Özellikleri</label>
+                            <div id="productFeatures" style="border: 1px solid #d1d3e2; padding: 15px; border-radius: 0.35rem; margin-bottom: 10px;">
+                                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                    <input type="text" placeholder="Özellik" class="form-control">
+                                    <input type="text" placeholder="Değer" class="form-control">
+                                    <button type="button" class="btn btn-danger feature-remove" style="margin-left: 5px;"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <button type="button" id="addFeatureBtn" class="btn btn-secondary"><i class="fas fa-plus mr-2"></i> Özellik Ekle</button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="productFeatured" checked> Öne Çıkan Ürün
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="productStatus" checked> Aktif
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="text-align: right;">
+                            <button type="button" id="cancelProductBtn" class="btn btn-secondary mr-2">İptal</button>
+                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Ürün Filtresi -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-header">
+                    <h2>Ürün Filtreleme</h2>
+                    <button class="btn btn-info" id="toggleFilterBtn">Filtreler <i class="fas fa-filter"></i></button>
+                </div>
+                <div class="card-body" id="filterSection" style="display: none;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select class="form-control">
+                                <option value="">Tümü</option>
+                                <option value="1">Kadın</option>
+                                <option value="2">Erkek</option>
+                                <option value="3">Çocuk</option>
+                                <option value="4">Aksesuar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fiyat Aralığı</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="number" placeholder="Min" class="form-control">
+                                <input type="number" placeholder="Max" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Stok Durumu</label>
+                            <select class="form-control">
+                                <option value="">Tümü</option>
+                                <option value="instock">Stokta Var</option>
+                                <option value="lowstock">Azalan Stok</option>
+                                <option value="outofstock">Tükendi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Durum</label>
+                            <select class="form-control">
+                                <option value="">Tümü</option>
+                                <option value="1">Aktif</option>
+                                <option value="0">Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="text-align: right; margin-top: 15px;">
+                        <button class="btn btn-secondary mr-2">Sıfırla</button>
+                        <button class="btn btn-primary">Filtrele</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ürün Listesi -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Ürünler</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" placeholder="Ürün ara..." class="form-control" style="width: 250px;">
+                        <button class="btn btn-primary">Ara</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Görsel</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Kategori</th>
+                                    <th>Fiyat</th>
+                                    <th>Stok</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>Kadın Yazlık Elbise</td>
+                                    <td>Yazlık Elbiseler</td>
+                                    <td>₺459.99</td>
+                                    <td>25</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>Erkek Gömlek</td>
+                                    <td>Gömlekler</td>
+                                    <td>₺349.99</td>
+                                    <td>0</td>
+                                    <td><span style="background-color: #e74a3b; color: white; padding: 3px 8px; border-radius: 4px;">Tükendi</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>Çocuk T-shirt</td>
+                                    <td>Çocuk</td>
+                                    <td>₺129.99</td>
+                                    <td>45</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>Kadın Çanta</td>
+                                    <td>Aksesuar</td>
+                                    <td>₺599.99</td>
+                                    <td>5</td>
+                                    <td><span style="background-color: #f6c23e; color: white; padding: 3px 8px; border-radius: 4px;">Az Stok</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><img src="../img/shoe.png" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;"></td>
+                                    <td>Erkek Ayakkabı</td>
+                                    <td>Erkek</td>
+                                    <td>₺799.99</td>
+                                    <td>12</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Aktif</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Sayfalama -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                        <div>
+                            Toplam 86 üründen 1-5 arası gösteriliyor
+                        </div>
+                        <div>
+                            <div class="pagination" style="display: flex; gap: 5px;">
+                                <button class="btn btn-secondary" disabled>&laquo;</button>
+                                <button class="btn btn-primary">1</button>
+                                <button class="btn btn-secondary">2</button>
+                                <button class="btn btn-secondary">3</button>
+                                <button class="btn btn-secondary">&raquo;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menü aktif durumunu ayarlama
+            const currentLocation = window.location.href;
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            
+            menuItems.forEach(item => {
+                if(item.href === currentLocation) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Ürün form işlevselliği
+            const addProductBtn = document.getElementById('addProductBtn');
+            const productForm = document.getElementById('productForm');
+            const closeFormBtn = document.getElementById('closeFormBtn');
+            const cancelProductBtn = document.getElementById('cancelProductBtn');
+            const newProductForm = document.getElementById('newProductForm');
+
+            // Filtre bölümü toggle işlevi
+            const toggleFilterBtn = document.getElementById('toggleFilterBtn');
+            const filterSection = document.getElementById('filterSection');
+
+            toggleFilterBtn.addEventListener('click', function() {
+                if(filterSection.style.display === 'none') {
+                    filterSection.style.display = 'block';
+                } else {
+                    filterSection.style.display = 'none';
+                }
+            });
+
+            addProductBtn.addEventListener('click', function() {
+                productForm.style.display = 'block';
+            });
+
+            closeFormBtn.addEventListener('click', function() {
+                productForm.style.display = 'none';
+            });
+
+            cancelProductBtn.addEventListener('click', function() {
+                productForm.style.display = 'none';
+            });
+
+            // Özellik ekleme butonu
+            const addFeatureBtn = document.getElementById('addFeatureBtn');
+            const productFeatures = document.getElementById('productFeatures');
+
+            addFeatureBtn.addEventListener('click', function() {
+                const featureRow = document.createElement('div');
+                featureRow.style = 'display: flex; gap: 10px; margin-bottom: 10px;';
+                featureRow.innerHTML = `
+                    <input type="text" placeholder="Özellik" class="form-control">
+                    <input type="text" placeholder="Değer" class="form-control">
+                    <button type="button" class="btn btn-danger feature-remove" style="margin-left: 5px;"><i class="fas fa-trash"></i></button>
+                `;
+                productFeatures.appendChild(featureRow);
+
+                // Silme butonları için olay dinleyicileri
+                const removeButtons = document.querySelectorAll('.feature-remove');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        this.parentElement.remove();
+                    });
+                });
+            });
+
+            newProductForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Burada form verileri toplanır ve API'ye gönderilir
+                const formData = {
+                    name: document.getElementById('productName').value,
+                    sku: document.getElementById('productSKU').value,
+                    category: document.getElementById('productCategory').value,
+                    price: document.getElementById('productPrice').value,
+                    discount: document.getElementById('productDiscount').value,
+                    stock: document.getElementById('productStock').value,
+                    description: document.getElementById('productDescription').value,
+                    featured: document.getElementById('productFeatured').checked,
+                    status: document.getElementById('productStatus').checked
+                    // Görseller ve özellikler de burada toplanabilir
+                };
+
+                console.log('Ürün kaydedildi:', formData);
+                
+                // Form sıfırlama ve kapatma
+                newProductForm.reset();
+                productForm.style.display = 'none';
+
+                // Başarı mesajı (gerçek uygulamada API yanıtına göre)
+                alert('Ürün başarıyla eklendi!');
+            });
+        });
+    </script>
+</body>
+</html>

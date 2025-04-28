@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <!-- Font Awesome CDN eklendi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>E-Ticaret Admin</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="dashboard.html" class="active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="categories.html">
+                        <i class="fas fa-list"></i>
+                        Kategoriler
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html">
+                        <i class="fas fa-box"></i>
+                        Ürünler
+                    </a>
+                </li>
+                <li>
+                    <a href="orders.html">
+                        <i class="fas fa-shopping-cart"></i>
+                        Siparişler
+                    </a>
+                </li>
+                <li>
+                    <a href="customers.html">
+                        <i class="fas fa-users"></i>
+                        Müşteriler
+                    </a>
+                </li>
+                <li>
+                    <a href="../index.html">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Çıkış
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <div>
+                    <span>Hoşgeldiniz, Admin</span>
+                </div>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="row" style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                <div class="card" style="flex: 1; min-width: 200px;">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: var(--primary-color); font-size: 0.9rem; font-weight: 700; margin-bottom: 5px;">TOPLAM SİPARİŞ</p>
+                                <h2 style="font-size: 1.8rem; margin: 0;">135</h2>
+                            </div>
+                            <div style="font-size: 2rem; color: var(--primary-color);">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="flex: 1; min-width: 200px;">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: var(--success-color); font-size: 0.9rem; font-weight: 700; margin-bottom: 5px;">TOPLAM KAZANÇ</p>
+                                <h2 style="font-size: 1.8rem; margin: 0;">₺32,450</h2>
+                            </div>
+                            <div style="font-size: 2rem; color: var(--success-color);">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="flex: 1; min-width: 200px;">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: var(--warning-color); font-size: 0.9rem; font-weight: 700; margin-bottom: 5px;">TOPLAM ÜRÜN</p>
+                                <h2 style="font-size: 1.8rem; margin: 0;">86</h2>
+                            </div>
+                            <div style="font-size: 2rem; color: var(--warning-color);">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="flex: 1; min-width: 200px;">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: var(--info-color); font-size: 0.9rem; font-weight: 700; margin-bottom: 5px;">TOPLAM MÜŞTERİ</p>
+                                <h2 style="font-size: 1.8rem; margin: 0;">243</h2>
+                            </div>
+                            <div style="font-size: 2rem; color: var(--info-color);">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Son Siparişler</h2>
+                    <a href="orders.html" class="btn btn-primary">Tümünü Gör</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş No</th>
+                                    <th>Müşteri</th>
+                                    <th>Tarih</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-785</td>
+                                    <td>Ahmet Yılmaz</td>
+                                    <td>27.04.2025</td>
+                                    <td>₺1,250.00</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Tamamlandı</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-784</td>
+                                    <td>Mehmet Demir</td>
+                                    <td>26.04.2025</td>
+                                    <td>₺750.00</td>
+                                    <td><span style="background-color: #f6c23e; color: white; padding: 3px 8px; border-radius: 4px;">İşlemde</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-783</td>
+                                    <td>Ayşe Kaya</td>
+                                    <td>25.04.2025</td>
+                                    <td>₺480.00</td>
+                                    <td><span style="background-color: #36b9cc; color: white; padding: 3px 8px; border-radius: 4px;">Kargoda</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-782</td>
+                                    <td>Fatma Şahin</td>
+                                    <td>25.04.2025</td>
+                                    <td>₺1,870.00</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Tamamlandı</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-781</td>
+                                    <td>Mustafa Aydın</td>
+                                    <td>24.04.2025</td>
+                                    <td>₺920.00</td>
+                                    <td><span style="background-color: #1cc88a; color: white; padding: 3px 8px; border-radius: 4px;">Tamamlandı</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basit admin panel işlevselliği buraya eklenebilir
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menü aktif durumunu ayarlama
+            const currentLocation = window.location.href;
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            
+            menuItems.forEach(item => {
+                if(item.href === currentLocation) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
