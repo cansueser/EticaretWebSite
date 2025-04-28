@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Paneli - Ürünler</title>
     <link rel="stylesheet" href="admin.css">
     <!-- Font Awesome CDN eklendi -->
@@ -203,38 +203,43 @@
 
                         <div class="form-group">
                             <label for="productPrice" style="color: var(--secondary-color);">Fiyat (₺)</label>
-                            <input type="number" id="productPrice" step="1" class="form-control" required>
+                            <input type="number" id="productPrice" step="0.01" class="form-control" required>
                         </div>
 
                         <!-- Renkler Ekleme Bölümü -->
                         <div class="form-group">
-                            <label style="color: var(--secondary-color);">Renk (Tek seçim)</label>
-                            <div style="margin-bottom: 10px;">
-                                <select id="productColor" class="form-control">
-                                    <option value="">Renk Seçin</option>
-                                    <option value="#000000">Siyah</option>
-                                    <option value="#ffffff">Beyaz</option>
-                                    <option value="#ff0000">Kırmızı</option>
-                                    <option value="#0000ff">Mavi</option>
-                                    <option value="#008000">Yeşil</option>
-                                </select>
+                            <label style="color: var(--secondary-color);">Renkler</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                                <div class="color-item" style="background-color: #000000;" title="Siyah"></div>
+                                <div class="color-item" style="background-color: #ffffff;" title="Beyaz"></div>
+                                <div class="color-item" style="background-color: #ff0000;" title="Kırmızı"></div>
+                                <div class="color-item" style="background-color: #0000ff;" title="Mavi"></div>
+                                <div class="color-item" style="background-color: #008000;" title="Yeşil"></div>
+                                <button type="button" id="addColorBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color); font-size: 0.9rem; padding: 4px 10px;">
+                                    <i class="fas fa-plus"></i> Renk Ekle
+                                </button>
                             </div>
                         </div>
 
                         <!-- Bedenler Ekleme Bölümü -->
                         <div class="form-group">
-                            <label style="color: var(--secondary-color);">Beden (Tek seçim)</label>
-                            <div style="margin-bottom: 10px;">
-                                <select id="productSize" class="form-control">
-                                    <option value="">Beden Seçin</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                    <option value="XXL">XXL</option>
-                                </select>
+                            <label style="color: var(--secondary-color);">Bedenler</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                                <span class="size-item active">XS</span>
+                                <span class="size-item active">S</span>
+                                <span class="size-item active">M</span>
+                                <span class="size-item active">L</span>
+                                <span class="size-item">XL</span>
+                                <span class="size-item">XXL</span>
+                                <button type="button" id="addSizeBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color); font-size: 0.9rem; padding: 4px 10px;">
+                                    <i class="fas fa-plus"></i> Beden Ekle
+                                </button>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productStock" style="color: var(--secondary-color);">Stok Miktarı</label>
+                            <input type="number" id="productStock" class="form-control" required>
                         </div>
 
                         <div class="form-group">
@@ -288,8 +293,8 @@
                                     <th>Ürün Adı</th>
                                     <th>Kategori</th>
                                     <th>Fiyat</th>
-                                    <th>Beden</th>
-                                    <th>Renk</th>
+                                    <th>Bedenler</th>
+                                    <th>Renkler</th>
                                     <th>Düzenle ve Sil</th>
                                 </tr>
                             </thead>
@@ -301,10 +306,19 @@
                                     </td>
                                     <td>Kadın Yazlık Elbise</td>
                                     <td>Yazlık Elbiseler</td>
-                                    <td>460 TL</td>
-                                    <td>M</td>
+                                    <td>459.99 TL</td>
                                     <td>
-                                        <div class="color-item" style="background-color: #ff0000; width: 15px; height: 15px;"></div>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">XS</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">S</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">M</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #ff0000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -320,10 +334,19 @@
                                     </td>
                                     <td>Erkek Gömlek</td>
                                     <td>Gömlekler</td>
-                                    <td>350 TL</td>
-                                    <td>L</td>
+                                    <td>349.99 TL</td>
                                     <td>
-                                        <div class="color-item" style="background-color: #0000ff; width: 15px; height: 15px;"></div>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">M</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">L</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">XL</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #0000ff; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #ffffff; width: 15px; height: 15px;"></div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -339,10 +362,18 @@
                                     </td>
                                     <td>Çocuk T-shirt</td>
                                     <td>Çocuk</td>
-                                    <td>130 TL</td>
-                                    <td>3-4 Yaş</td>
+                                    <td>129.99 TL</td>
                                     <td>
-                                        <div class="color-item" style="background-color: #008000; width: 15px; height: 15px;"></div>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">3-4 Yaş</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">5-6 Yaş</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #008000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #ffff00; width: 15px; height: 15px;"></div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -358,10 +389,17 @@
                                     </td>
                                     <td>Kadın Çanta</td>
                                     <td>Aksesuar</td>
-                                    <td>600 TL</td>
-                                    <td>Standart</td>
+                                    <td>599.99 TL</td>
                                     <td>
-                                        <div class="color-item" style="background-color: #a52a2a; width: 15px; height: 15px;"></div>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">Standart</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #a52a2a; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -377,10 +415,20 @@
                                     </td>
                                     <td>Erkek Ayakkabı</td>
                                     <td>Ayakkabı</td>
-                                    <td>800 TL</td>
-                                    <td>42</td>
+                                    <td>799.99 TL</td>
                                     <td>
-                                        <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                        <div style="display: flex; gap: 4px;">
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">40</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">41</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">42</span>
+                                            <span class="size-item" style="font-size: 0.7rem; padding: 2px 5px;">43</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 4px;">
+                                            <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
+                                            <div class="color-item" style="background-color: #8b4513; width: 15px; height: 15px;"></div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -530,10 +578,11 @@
                     name: document.getElementById('productName').value,
                     sku: document.getElementById('productSKU').value,
                     category: document.getElementById('productCategory').value,
-                    price: Math.round(document.getElementById('productPrice').value), // Tam sayıya yuvarla
-                    color: document.getElementById('productColor').value,
-                    size: document.getElementById('productSize').value,
-                    description: document.getElementById('productDescription').value
+                    price: document.getElementById('productPrice').value,
+                    stock: document.getElementById('productStock').value,
+                    description: document.getElementById('productDescription').value,
+                    colors: Array.from(document.querySelectorAll('.color-item')).map(color => color.style.backgroundColor),
+                    sizes: Array.from(document.querySelectorAll('.size-item.active')).map(size => size.textContent)
                 };
 
                 console.log('Ürün kaydedildi:', formData);
