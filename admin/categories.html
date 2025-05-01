@@ -289,8 +289,24 @@
             const closeFormBtn = document.getElementById('closeFormBtn');
             const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
             const newCategoryForm = document.getElementById('newCategoryForm');
+            const categoryNameInput = document.getElementById('categoryName');
+            const categoryDescriptionInput = document.getElementById('categoryDescription');
+            let editMode = false;
+            let editingCategoryId = null;
 
             addCategoryBtn.addEventListener('click', function() {
+                // Yeni kategori ekleme modunu ayarla
+                editMode = false;
+                editingCategoryId = null;
+                
+                // Formu temizle
+                categoryNameInput.value = '';
+                categoryDescriptionInput.value = '';
+                
+                // Form başlığını değiştir
+                document.querySelector('#categoryForm .card-header h2').textContent = 'Yeni Kategori Ekle';
+                
+                // Formu göster
                 categoryForm.style.display = 'block';
             });
 
@@ -302,23 +318,50 @@
                 categoryForm.style.display = 'none';
             });
 
+            // Düzenle butonları için olay dinleyicisi ekle
+            const editButtons = document.querySelectorAll('.edit-button');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Kategori bilgilerini al
+                    const row = this.closest('tr');
+                    const categoryId = row.querySelector('td:first-child').textContent;
+                    const categoryName = row.querySelector('td:nth-child(2)').textContent;
+                    const categoryDescription = row.querySelector('td:nth-child(3)').textContent;
+                    
+                    // Düzenleme modunu ayarla
+                    editMode = true;
+                    editingCategoryId = categoryId;
+                    
+                    // Form alanlarını doldur
+                    categoryNameInput.value = categoryName;
+                    categoryDescriptionInput.value = categoryDescription;
+                    
+                    // Form başlığını değiştir
+                    document.querySelector('#categoryForm .card-header h2').textContent = 'Kategori Düzenle';
+                    
+                    // Formu göster
+                    categoryForm.style.display = 'block';
+                });
+            });
+
             newCategoryForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 // Burada form verileri toplanır ve API'ye gönderilir
                 const formData = {
-                    name: document.getElementById('categoryName').value,
-                    description: document.getElementById('categoryDescription').value
+                    id: editMode ? editingCategoryId : null,
+                    name: categoryNameInput.value,
+                    description: categoryDescriptionInput.value
                 };
 
-                console.log('Kategori kaydedildi:', formData);
+                console.log(editMode ? 'Kategori güncellendi:' : 'Kategori kaydedildi:', formData);
                 
                 // Form sıfırlama ve kapatma
                 newCategoryForm.reset();
                 categoryForm.style.display = 'none';
 
                 // Başarı mesajı (gerçek uygulamada API yanıtına göre)
-                alert('Kategori başarıyla eklendi!');
+                alert(editMode ? 'Kategori başarıyla güncellendi!' : 'Kategori başarıyla eklendi!');
             });
             
             // Çıkış yapma işlemi için toast mesajı

@@ -177,15 +177,9 @@
                 </div>
                 <div class="card-body">
                     <form id="newProductForm">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label for="productName" style="color: var(--secondary-color);">Ürün Adı</label>
-                                <input type="text" id="productName" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="productSKU" style="color: var(--secondary-color);">Ürün Kodu (SKU)</label>
-                                <input type="text" id="productSKU" class="form-control" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="productName" style="color: var(--secondary-color);">Ürün Adı</label>
+                            <input type="text" id="productName" class="form-control" required>
                         </div>
 
                         <div class="form-group">
@@ -206,35 +200,16 @@
                             <input type="number" id="productPrice" step="1" class="form-control" required>
                         </div>
 
-                        <!-- Renkler Ekleme Bölümü -->
+                        <!-- Renk Ekleme Bölümü (Opsiyonel metin alanı) -->
                         <div class="form-group">
-                            <label style="color: var(--secondary-color);">Renk (Tek seçim)</label>
-                            <div style="margin-bottom: 10px;">
-                                <select id="productColor" class="form-control">
-                                    <option value="">Renk Seçin</option>
-                                    <option value="#000000">Siyah</option>
-                                    <option value="#ffffff">Beyaz</option>
-                                    <option value="#ff0000">Kırmızı</option>
-                                    <option value="#0000ff">Mavi</option>
-                                    <option value="#008000">Yeşil</option>
-                                </select>
-                            </div>
+                            <label for="productColorText" style="color: var(--secondary-color);">Renk (Opsiyonel)</label>
+                            <input type="text" id="productColorText" class="form-control" placeholder="Örn: Siyah, Mavi, Kırmızı">
                         </div>
 
-                        <!-- Bedenler Ekleme Bölümü -->
+                        <!-- Beden Ekleme Bölümü (Opsiyonel metin alanı) -->
                         <div class="form-group">
-                            <label style="color: var(--secondary-color);">Beden (Tek seçim)</label>
-                            <div style="margin-bottom: 10px;">
-                                <select id="productSize" class="form-control">
-                                    <option value="">Beden Seçin</option>
-                                    <option value="XS">XS</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                    <option value="XXL">XXL</option>
-                                </select>
-                            </div>
+                            <label for="productSizeText" style="color: var(--secondary-color);">Beden (Opsiyonel)</label>
+                            <input type="text" id="productSizeText" class="form-control" placeholder="Örn: S, M, L, XL, 38, 40">
                         </div>
 
                         <div class="form-group">
@@ -245,20 +220,6 @@
                         <div class="form-group">
                             <label for="productImages" style="color: var(--secondary-color);">Ürün Görselleri (Çoklu seçim yapabilirsiniz)</label>
                             <input type="file" id="productImages" class="form-control" multiple>
-                        </div>
-
-                        <div class="form-group">
-                            <label style="color: var(--secondary-color);">Ürün Özellikleri</label>
-                            <div id="productFeatures" style="border: 1px solid #d1d3e2; padding: 15px; border-radius: 4px; margin-bottom: 10px;">
-                                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                                    <input type="text" placeholder="Özellik" class="form-control">
-                                    <input type="text" placeholder="Değer" class="form-control">
-                                    <button type="button" class="btn" style="background-color: #6c757d; color: white;"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </div>
-                            <button type="button" id="addFeatureBtn" class="btn" style="background-color: var(--light-gray); color: var(--secondary-color);">
-                                <i class="fas fa-plus mr-2"></i> Özellik Ekle
-                            </button>
                         </div>
 
                         <div style="text-align: right; margin-top: 20px;">
@@ -528,11 +489,10 @@
                 // Burada form verileri toplanır ve API'ye gönderilir
                 const formData = {
                     name: document.getElementById('productName').value,
-                    sku: document.getElementById('productSKU').value,
                     category: document.getElementById('productCategory').value,
                     price: Math.round(document.getElementById('productPrice').value), // Tam sayıya yuvarla
-                    color: document.getElementById('productColor').value,
-                    size: document.getElementById('productSize').value,
+                    color: document.getElementById('productColorText').value,
+                    size: document.getElementById('productSizeText').value,
                     description: document.getElementById('productDescription').value
                 };
 
