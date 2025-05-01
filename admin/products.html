@@ -264,9 +264,7 @@
                                     <td>Yazlık Elbiseler</td>
                                     <td>460 TL</td>
                                     <td>M</td>
-                                    <td>
-                                        <div class="color-item" style="background-color: #ff0000; width: 15px; height: 15px;"></div>
-                                    </td>
+                                    <td data-color="Kırmızı">Kırmızı</td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
@@ -283,9 +281,7 @@
                                     <td>Gömlekler</td>
                                     <td>350 TL</td>
                                     <td>L</td>
-                                    <td>
-                                        <div class="color-item" style="background-color: #0000ff; width: 15px; height: 15px;"></div>
-                                    </td>
+                                    <td data-color="Mavi">Mavi</td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
@@ -302,9 +298,7 @@
                                     <td>Çocuk</td>
                                     <td>130 TL</td>
                                     <td>3-4 Yaş</td>
-                                    <td>
-                                        <div class="color-item" style="background-color: #008000; width: 15px; height: 15px;"></div>
-                                    </td>
+                                    <td data-color="Yeşil">Yeşil</td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
@@ -321,9 +315,7 @@
                                     <td>Aksesuar</td>
                                     <td>600 TL</td>
                                     <td>Standart</td>
-                                    <td>
-                                        <div class="color-item" style="background-color: #a52a2a; width: 15px; height: 15px;"></div>
-                                    </td>
+                                    <td data-color="Kahverengi">Kahverengi</td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
@@ -340,9 +332,7 @@
                                     <td>Ayakkabı</td>
                                     <td>800 TL</td>
                                     <td>42</td>
-                                    <td>
-                                        <div class="color-item" style="background-color: #000000; width: 15px; height: 15px;"></div>
-                                    </td>
+                                    <td data-color="Siyah">Siyah</td>
                                     <td>
                                         <div class="action-buttons">
                                             <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
@@ -397,8 +387,26 @@
             const closeFormBtn = document.getElementById('closeFormBtn');
             const cancelProductBtn = document.getElementById('cancelProductBtn');
             const newProductForm = document.getElementById('newProductForm');
+            let editMode = false;
+            let editingProductId = null;
 
             addProductBtn.addEventListener('click', function() {
+                // Yeni ürün ekleme modunu ayarla
+                editMode = false;
+                editingProductId = null;
+                
+                // Formu temizle
+                document.getElementById('productName').value = '';
+                document.getElementById('productCategory').value = '';
+                document.getElementById('productPrice').value = '';
+                document.getElementById('productColorText').value = '';
+                document.getElementById('productSizeText').value = '';
+                document.getElementById('productDescription').value = '';
+                
+                // Form başlığını değiştir
+                document.querySelector('#productForm .card-header h2').textContent = 'Yeni Ürün Ekle';
+                
+                // Formu göster
                 productForm.style.display = 'block';
             });
 
@@ -408,6 +416,76 @@
 
             cancelProductBtn.addEventListener('click', function() {
                 productForm.style.display = 'none';
+            });
+
+            // Düzenle butonları için olay dinleyicisi ekle
+            const editButtons = document.querySelectorAll('.edit-button');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Ürün bilgilerini al
+                    const row = this.closest('tr');
+                    const productId = row.querySelector('td:first-child').textContent;
+                    const productName = row.querySelector('td:nth-child(3)').textContent;
+                    const productCategory = row.querySelector('td:nth-child(4)').textContent;
+                    const productPrice = row.querySelector('td:nth-child(5)').textContent.replace(/[^0-9]/g, ''); // Sadece sayıları al
+                    const productSize = row.querySelector('td:nth-child(6)').textContent;
+                    
+                    // Renk bilgisini al (bu kısım sizin tablonuzun yapısına göre değişebilir)
+                    const productColor = row.querySelector('td:nth-child(7)').getAttribute('data-color') || '';
+                    
+                    // Düzenleme modunu ayarla
+                    editMode = true;
+                    editingProductId = productId;
+                    
+                    // Form alanlarını doldur
+                    document.getElementById('productName').value = productName;
+                    
+                    // Kategori değerini seç
+                    const categorySelect = document.getElementById('productCategory');
+                    for(let i = 0; i < categorySelect.options.length; i++) {
+                        if(categorySelect.options[i].text === productCategory) {
+                            categorySelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    document.getElementById('productPrice').value = productPrice;
+                    document.getElementById('productColorText').value = productColor; 
+                    document.getElementById('productSizeText').value = productSize;
+                    
+                    // Açıklama alanı için - bu veri tabloda görünmüyor olabilir, bu durumda boş kalabilir
+                    // Gerçek uygulamada API'den tam ürün detayı alınabilir
+                    
+                    // Form başlığını değiştir
+                    document.querySelector('#productForm .card-header h2').textContent = 'Ürün Düzenle';
+                    
+                    // Formu göster
+                    productForm.style.display = 'block';
+                });
+            });
+
+            newProductForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Burada form verileri toplanır ve API'ye gönderilir
+                const formData = {
+                    id: editMode ? editingProductId : null,
+                    name: document.getElementById('productName').value,
+                    category: document.getElementById('productCategory').value,
+                    price: Math.round(document.getElementById('productPrice').value), // Tam sayıya yuvarla
+                    color: document.getElementById('productColorText').value,
+                    size: document.getElementById('productSizeText').value,
+                    description: document.getElementById('productDescription').value
+                };
+
+                console.log(editMode ? 'Ürün güncellendi:' : 'Ürün kaydedildi:', formData);
+                
+                // Form sıfırlama ve kapatma
+                newProductForm.reset();
+                productForm.style.display = 'none';
+
+                // Başarı mesajı (gerçek uygulamada API yanıtına göre)
+                alert(editMode ? 'Ürün başarıyla güncellendi!' : 'Ürün başarıyla eklendi!');
             });
 
             // Özellik ekleme butonu
@@ -482,29 +560,6 @@
                     }
                 });
             }
-
-            newProductForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Burada form verileri toplanır ve API'ye gönderilir
-                const formData = {
-                    name: document.getElementById('productName').value,
-                    category: document.getElementById('productCategory').value,
-                    price: Math.round(document.getElementById('productPrice').value), // Tam sayıya yuvarla
-                    color: document.getElementById('productColorText').value,
-                    size: document.getElementById('productSizeText').value,
-                    description: document.getElementById('productDescription').value
-                };
-
-                console.log('Ürün kaydedildi:', formData);
-                
-                // Form sıfırlama ve kapatma
-                newProductForm.reset();
-                productForm.style.display = 'none';
-
-                // Başarı mesajı (gerçek uygulamada API yanıtına göre)
-                alert('Ürün başarıyla eklendi!');
-            });
 
             // Çıkış yapma işlemi için toast mesajı
             const logoutLink = document.querySelector('.sidebar-menu a[href="../index.html"]');
