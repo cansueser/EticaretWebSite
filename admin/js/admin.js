@@ -55,7 +55,7 @@ class AdminUI {
         // Admin bilgi bölümünü oluştur
         const adminInfo = document.createElement('div');
         adminInfo.className = 'admin-info';
-        adminInfo.style = 'padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; display: flex; flex-direction: column; gap: 10px;';
+        // CSS içinde zaten admin-info sınıfı tanımlandığı için, inline stil eklemeye gerek yok
         
         // Admin adı
         const adminName = document.createElement('div');
@@ -64,7 +64,6 @@ class AdminUI {
             <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
             <div>
                 <div style="font-weight: 500;">${this.adminUser.username || 'Admin'}</div>
-                <div style="font-size: 0.8rem; opacity: 0.8;">${this.adminUser.role || 'YÖNETİCİ'}</div>
             </div>
         `;
         
@@ -78,11 +77,7 @@ class AdminUI {
         adminInfo.appendChild(adminName);
         adminInfo.appendChild(logoutButton);
         
-        // Sidebar'ı esnek hale getir
-        sidebar.style.display = 'flex';
-        sidebar.style.flexDirection = 'column';
-        
-        // Admin bilgi bölümünü sidebar'a ekle
+        // Sidebar'a admin bilgi bölümünü ekle
         sidebar.appendChild(adminInfo);
     }
     

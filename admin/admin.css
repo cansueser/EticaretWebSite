@@ -19,6 +19,11 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--body-bg);
@@ -27,7 +32,12 @@ body {
 /* Admin Panel Layout */
 .admin-container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
 }
 
 /* Sidebar Styles */
@@ -36,6 +46,10 @@ body {
     background-color: var(--sidebar-bg);
     color: var(--sidebar-color);
     transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
 }
 
 .sidebar-header {
@@ -54,6 +68,8 @@ body {
 .sidebar-menu {
     padding: 0;
     list-style: none;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 .sidebar-menu li {
@@ -86,11 +102,22 @@ body {
     text-align: center;
 }
 
+/* Admin info panel at bottom */
+.admin-info {
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* Main Content Area */
 .main-content {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    height: 100vh;
 }
 
 .page-header {
