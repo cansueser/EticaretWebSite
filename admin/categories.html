@@ -187,70 +187,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Kategoriler burada listelenecek -->
                                 <tr>
-                                    <td>1</td>
-                                    <td>Kadın</td>
-                                    <td>Kadın giyim, ayakkabı ve aksesuar ürünleri</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Erkek</td>
-                                    <td>Erkeklere özel giyim ve aksesuar koleksiyonu</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Çocuk</td>
-                                    <td>Çocuklara özel kıyafet ve aksesuar ürünleri</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Aksesuar</td>
-                                    <td>Çanta, saat, takı ve diğer aksesuar çeşitleri</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Yazlık Elbiseler</td>
-                                    <td>Yaz sezonu için hafif ve şık elbise modelleri</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>Gömlekler</td>
-                                    <td>Casual ve resmi gömlek modelleri koleksiyonu</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-button edit-button"><i class="fas fa-edit"></i></button>
-                                            <button class="action-button delete-button"><i class="fas fa-trash"></i></button>
-                                        </div>
+                                    <td colspan="4" style="text-align: center; padding: 20px;">
+                                        <i class="fas fa-spinner fa-spin"></i> Kategoriler Yükleniyor...
                                     </td>
                                 </tr>
                             </tbody>
@@ -269,118 +209,8 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Menü aktif durumunu ayarlama
-            const currentLocation = window.location.href;
-            const menuItems = document.querySelectorAll('.sidebar-menu a');
-            
-            menuItems.forEach(item => {
-                if(item.href === currentLocation) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
-
-            // Kategori form işlevselliği
-            const addCategoryBtn = document.getElementById('addCategoryBtn');
-            const categoryForm = document.getElementById('categoryForm');
-            const closeFormBtn = document.getElementById('closeFormBtn');
-            const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
-            const newCategoryForm = document.getElementById('newCategoryForm');
-            const categoryNameInput = document.getElementById('categoryName');
-            const categoryDescriptionInput = document.getElementById('categoryDescription');
-            let editMode = false;
-            let editingCategoryId = null;
-
-            addCategoryBtn.addEventListener('click', function() {
-                // Yeni kategori ekleme modunu ayarla
-                editMode = false;
-                editingCategoryId = null;
-                
-                // Formu temizle
-                categoryNameInput.value = '';
-                categoryDescriptionInput.value = '';
-                
-                // Form başlığını değiştir
-                document.querySelector('#categoryForm .card-header h2').textContent = 'Yeni Kategori Ekle';
-                
-                // Formu göster
-                categoryForm.style.display = 'block';
-            });
-
-            closeFormBtn.addEventListener('click', function() {
-                categoryForm.style.display = 'none';
-            });
-
-            cancelCategoryBtn.addEventListener('click', function() {
-                categoryForm.style.display = 'none';
-            });
-
-            // Düzenle butonları için olay dinleyicisi ekle
-            const editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Kategori bilgilerini al
-                    const row = this.closest('tr');
-                    const categoryId = row.querySelector('td:first-child').textContent;
-                    const categoryName = row.querySelector('td:nth-child(2)').textContent;
-                    const categoryDescription = row.querySelector('td:nth-child(3)').textContent;
-                    
-                    // Düzenleme modunu ayarla
-                    editMode = true;
-                    editingCategoryId = categoryId;
-                    
-                    // Form alanlarını doldur
-                    categoryNameInput.value = categoryName;
-                    categoryDescriptionInput.value = categoryDescription;
-                    
-                    // Form başlığını değiştir
-                    document.querySelector('#categoryForm .card-header h2').textContent = 'Kategori Düzenle';
-                    
-                    // Formu göster
-                    categoryForm.style.display = 'block';
-                });
-            });
-
-            newCategoryForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Burada form verileri toplanır ve API'ye gönderilir
-                const formData = {
-                    id: editMode ? editingCategoryId : null,
-                    name: categoryNameInput.value,
-                    description: categoryDescriptionInput.value
-                };
-
-                console.log(editMode ? 'Kategori güncellendi:' : 'Kategori kaydedildi:', formData);
-                
-                // Form sıfırlama ve kapatma
-                newCategoryForm.reset();
-                categoryForm.style.display = 'none';
-
-                // Başarı mesajı (gerçek uygulamada API yanıtına göre)
-                alert(editMode ? 'Kategori başarıyla güncellendi!' : 'Kategori başarıyla eklendi!');
-            });
-            
-            // Çıkış yapma işlemi için toast mesajı
-            const logoutLink = document.querySelector('.sidebar-menu a[href="../index.html"]');
-            logoutLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Toast mesajını göster
-                const toast = document.getElementById('toast');
-                toast.style.display = 'block';
-                
-                // 1.5 saniye sonra kaybolacak
-                setTimeout(function() {
-                    toast.style.display = 'none';
-                    // Yönlendirme yap
-                    window.location.href = '../index.html';
-                }, 1500);
-            });
-        });
-    </script>
+    <!-- JavaScript dosyaları -->
+    <script type="module" src="../js/api-service.js"></script>
+    <script type="module" src="js/admin.js"></script>
 </body>
 </html>
