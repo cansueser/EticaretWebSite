@@ -26,6 +26,13 @@
         .sidebar {
             background-color: var(--primary-light);
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .sidebar-menu {
+            flex-grow: 1;
         }
         
         .sidebar-menu a {
@@ -122,12 +129,7 @@
                         Siparişler
                     </a>
                 </li>
-                <li>
-                    <a href="../index.html">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Çıkış
-                    </a>
-                </li>
+                <!-- Admin bilgileri ve çıkış butonu buraya dinamik olarak eklenecek -->
             </ul>
         </div>
 

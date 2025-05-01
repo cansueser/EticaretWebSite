@@ -11,7 +11,95 @@ import apiService from '../../js/api-service.js';
 class AdminUI {
     constructor() {
         this.initToast();
+        this.checkSession();
         this.setupEventListeners();
+    }
+
+    /**
+     * Admin oturumunu kontrol et
+     */
+    checkSession() {
+        // sessionStorage'dan admin bilgisini al
+        const adminData = sessionStorage.getItem('admin');
+        
+        // Admin oturumu yoksa login sayfasına yönlendir
+        if (!adminData && !window.location.pathname.includes('login.html')) {
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        // Admin bilgilerini sakla
+        if (adminData) {
+            this.adminUser = JSON.parse(adminData);
+            
+            // Admin adını sidebar'a ekle
+            this.updateAdminInfo();
+        }
+    }
+    
+    /**
+     * Admin bilgilerini sidebar'a ekle
+     */
+    updateAdminInfo() {
+        if (!this.adminUser) return;
+        
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+        
+        // Eski admin bilgisi varsa kaldır
+        const existingAdminInfo = document.querySelector('.admin-info');
+        if (existingAdminInfo) {
+            existingAdminInfo.remove();
+        }
+        
+        // Admin bilgi bölümünü oluştur
+        const adminInfo = document.createElement('div');
+        adminInfo.className = 'admin-info';
+        adminInfo.style = 'padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; display: flex; flex-direction: column; gap: 10px;';
+        
+        // Admin adı
+        const adminName = document.createElement('div');
+        adminName.style = 'display: flex; align-items: center; gap: 10px;';
+        adminName.innerHTML = `
+            <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
+            <div>
+                <div style="font-weight: 500;">${this.adminUser.username || 'Admin'}</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">${this.adminUser.role || 'YÖNETİCİ'}</div>
+            </div>
+        `;
+        
+        // Çıkış butonu
+        const logoutButton = document.createElement('button');
+        logoutButton.className = 'logout-button';
+        logoutButton.style = 'background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 12px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;';
+        logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> Çıkış Yap';
+        logoutButton.addEventListener('click', () => this.logout());
+        
+        adminInfo.appendChild(adminName);
+        adminInfo.appendChild(logoutButton);
+        
+        // Sidebar'ı esnek hale getir
+        sidebar.style.display = 'flex';
+        sidebar.style.flexDirection = 'column';
+        
+        // Admin bilgi bölümünü sidebar'a ekle
+        sidebar.appendChild(adminInfo);
+    }
+    
+    /**
+     * Çıkış yapma işlemi
+     */
+    logout() {
+        // Toast mesajını göster
+        this.showToast('Çıkış yapılıyor...');
+        
+        // Admin bilgilerini sessionStorage'dan temizle
+        sessionStorage.removeItem('admin');
+        
+        // 1 saniye sonra login sayfasına yönlendir
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1000);
     }
 
     /**

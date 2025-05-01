@@ -168,7 +168,7 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 ```
 - **Başarılı Yanıt**:
   - Kod: 200 OK
-  - İçerik: `{ "success": true, "user": { "id": 1, "username": "kullanici@ornek.com", "role": "ADMIN" } }`
+  - İçerik: `{ "success": true, "user": { "id": 1, "username": "kullanici@ornek.com", "permission": true } }`
 - **Hata Yanıtı**:
   - Kod: 401 Unauthorized
   - İçerik: `{ "success": false, "message": "Hatalı kullanıcı adı veya şifre" }`
