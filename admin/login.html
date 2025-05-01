@@ -239,6 +239,9 @@
                         // Kullanıcı bilgilerini sessionStorage'a kaydet
                         sessionStorage.setItem('admin', JSON.stringify(response.user));
                         
+                        // ApiService'de de kullanıcı bilgilerini ayarla
+                        apiService.setCurrentUser(response.user);
+                        
                         // Başarı mesajını göster
                         successMessage.style.display = 'block';
                         

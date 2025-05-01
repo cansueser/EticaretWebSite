@@ -32,9 +32,72 @@ class AdminUI {
         if (adminData) {
             this.adminUser = JSON.parse(adminData);
             
+            // Admin bilgilerini API servisine de ayarla
+            apiService.setCurrentUser(this.adminUser);
+            
             // Admin adını sidebar'a ekle
             this.updateAdminInfo();
+
+            // Yetki kontrolü
+            this.checkPermissions();
         }
+    }
+    
+    /**
+     * Admin yetkilerini kontrol et ve UI'ı buna göre düzenle
+     */
+    checkPermissions() {
+        // Ekleme butonlarını kontrol et
+        const addButtons = document.querySelectorAll('#addCategoryBtn, #addProductBtn');
+        
+        if (!this.adminUser.permission) {
+            // Salt görüntüleme modu bildirimi
+            const permissionNotice = document.createElement('div');
+            permissionNotice.className = 'permission-notice';
+            permissionNotice.style = 'background-color: #fff3cd; color: #856404; padding: 10px 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #ffeeba;';
+            permissionNotice.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Sınırlı erişim modu: Sadece görüntüleme yapabilirsiniz.';
+            
+            // Bildirimi sayfanın başına ekle
+            const contentArea = document.querySelector('.content-area');
+            if (contentArea && !document.querySelector('.permission-notice')) {
+                contentArea.insertBefore(permissionNotice, contentArea.firstChild);
+            }
+            
+            // Ekle butonlarını devre dışı bırak
+            addButtons.forEach(button => {
+                if (button) {
+                    button.disabled = true;
+                    button.style.opacity = '0.5';
+                    button.style.cursor = 'not-allowed';
+                    
+                    // Tooltip ekle
+                    button.title = "Bu işlem için yetkiniz bulunmamaktadır";
+                }
+            });
+
+            // Düzenleme ve silme butonlarını devre dışı bırak
+            this.disableActionButtons();
+        }
+    }
+
+    /**
+     * Düzenleme ve silme butonlarını devre dışı bırakır (yetki yoksa)
+     */
+    disableActionButtons() {
+        const actionButtons = document.querySelectorAll('.edit-button, .delete-button');
+        actionButtons.forEach(button => {
+            // Butonları gizlemek yerine devre dışı bırak ve görünümünü değiştir
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            button.style.cursor = 'not-allowed';
+            button.title = "Bu işlem için yetkiniz bulunmamaktadır";
+            
+            // İkon rengini gri yap
+            const icon = button.querySelector('i');
+            if (icon) {
+                icon.style.color = '#999';
+            }
+        });
     }
     
     /**
@@ -246,6 +309,11 @@ class AdminUI {
             
             // Düzenle ve sil butonları için event listenerları ekle
             this.attachCategoryEventListeners();
+            
+            // Yetki kontrolü - yetki yoksa butonları devre dışı bırak
+            if (this.adminUser && this.adminUser.permission === false) {
+                this.disableActionButtons();
+            }
             
         } catch (error) {
             console.error('Kategorileri yükleme hatası:', error);
@@ -491,6 +559,11 @@ class AdminUI {
             
             // Düzenle ve sil butonları için event listener'ları ekle
             this.attachProductEventListeners();
+            
+            // Yetki kontrolü - yetki yoksa butonları devre dışı bırak
+            if (this.adminUser && this.adminUser.permission === false) {
+                this.disableActionButtons();
+            }
             
         } catch (error) {
             console.error('Ürünleri yükleme hatası:', error);

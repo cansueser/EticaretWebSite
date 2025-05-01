@@ -9,6 +9,43 @@ class ApiService {
         this.headers = {
             'Content-Type': 'application/json',
         };
+        // Oturumdaki kullanıcı bilgisini sakla
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    }
+
+    /**
+     * Kullanıcının yetkisi olup olmadığını kontrol eder
+     * @returns {boolean} - Admin yetkisi varsa true
+     */
+    hasAdminPermission() {
+        return this.currentUser && this.currentUser.permission === true;
+    }
+
+    /**
+     * Yetki kontrolü yapar ve yetkisiz ise hata fırlatır
+     * @throws {Error} - Yetki yoksa hata fırlatır
+     */
+    checkAdminPermission() {
+        if (!this.hasAdminPermission()) {
+            throw new Error("Bu işlem için admin yetkisi gereklidir");
+        }
+    }
+
+    /**
+     * Kullanıcı oturumunu ayarlar
+     * @param {Object} user - Kullanıcı bilgisi
+     */
+    setCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+
+    /**
+     * Oturumu kapatır
+     */
+    logout() {
+        this.currentUser = null;
+        localStorage.removeItem('currentUser');
     }
 
     /**
@@ -140,14 +177,20 @@ class ApiService {
     }
 
     async createCategory(categoryData) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.post('/kategoriler', categoryData);
     }
 
     async updateCategory(id, categoryData) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.put(`/kategoriler/${id}`, categoryData);
     }
 
     async deleteCategory(id) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.delete(`/kategoriler/${id}`);
     }
 
@@ -165,14 +208,20 @@ class ApiService {
     }
 
     async createProduct(productData) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.post('/urunler', productData);
     }
 
     async updateProduct(id, productData) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.put(`/urunler/${id}`, productData);
     }
 
     async deleteProduct(id) {
+        // Admin yetkisi kontrolü
+        this.checkAdminPermission();
         return this.delete(`/urunler/${id}`);
     }
 
