@@ -533,11 +533,19 @@ class AdminUI {
             tableBody.innerHTML = '';
             
             products.forEach(product => {
+                // Ürün görselini düzgün formatta göster
+                let imageUrl = product.imageUrl || '../img/shoe.png';
+                
+                // Eğer imageUrl bir dosya adıysa (örn: adminIcon.png)
+                if (imageUrl && !imageUrl.startsWith('/') && !imageUrl.includes('/')) {
+                    imageUrl = `/img/image_url/${imageUrl}`;
+                }
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${product.id}</td>
                     <td>
-                        <img src="${product.imageUrl || '../img/shoe.png'}" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                        <img src="${imageUrl}" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
                     </td>
                     <td>${product.name}</td>
                     <td>${product.categoryName || ''}</td>
@@ -773,6 +781,11 @@ class AdminUI {
         this.editMode = !!product;
         this.editingProductId = product ? product.id : null;
         
+        // Yeni ürün ekleme durumunda düzenleme bilgilerini temizle
+        if (!product) {
+            this.editingProduct = null;
+        }
+        
         // Formu temizle veya doldur
         document.getElementById('productName').value = product ? product.name : '';
         document.getElementById('productCategory').value = product ? product.categoryId : '';
@@ -810,12 +823,27 @@ class AdminUI {
         // Gerekli alanları kontrol et
         if (!productNameInput || !productCategorySelect || !productPriceInput || !newProductForm || !productForm) return;
         
-        let imageUrl = null;
+        let imageUrl = "/img/image_url/urun-resmi.jpg"; // Varsayılan resim
         
+        // Yeni resim yüklendiyse onu kullan
         if (imageInput?.files.length > 0) {
-            // Gerçek uygulamada burada bir resim yükleme API'si kullanılır
-            // Şimdilik sadece dosya adını alıyoruz
-            imageUrl = imageInput.files[0].name;
+            imageUrl = `/img/image_url/${imageInput.files[0].name}`;
+        } 
+        // Düzenleme modunda ve yeni resim seçilmediyse var olan resmi kullan
+        else if (this.editMode && this.editingProduct) {
+            // Orijinal resmi al, ancak düzgün formatta olduğundan emin ol
+            const originalImageUrl = this.editingProduct.imageUrl || "";
+            
+            if (originalImageUrl) {
+                if (originalImageUrl.startsWith('/img/image_url/')) {
+                    // Zaten doğru formatta
+                    imageUrl = originalImageUrl;
+                } else {
+                    // Sadece dosya adını al ve doğru formata dönüştür
+                    const fileName = originalImageUrl.split('/').pop() || "urun-resmi.jpg";
+                    imageUrl = `/img/image_url/${fileName}`;
+                }
+            }
         }
         
         // Form verilerini topla
@@ -825,7 +853,7 @@ class AdminUI {
             price: parseFloat(productPriceInput.value),
             categoryId: parseInt(productCategorySelect.value),
             stockQuantity: 100, // Örnek bir değer, gerçek uygulamada bir alan eklenebilir
-            imageUrl: imageUrl || "urun-resmi.jpg",
+            imageUrl: imageUrl,
             color: productColorInput?.value || '',
             size: productSizeInput?.value || ''
         };
@@ -858,6 +886,7 @@ class AdminUI {
     async editProduct(productId) {
         try {
             const product = await apiService.getProductById(productId);
+            this.editingProduct = product; // Düzenlenen ürün bilgisini sakla
             this.openProductForm(product);
         } catch (error) {
             console.error('Ürün bilgilerini alma hatası:', error);
@@ -932,11 +961,19 @@ class AdminUI {
             if (pagination) pagination.style.display = 'inline-flex';
             
             filteredProducts.forEach(product => {
+                // Ürün görselini düzgün formatta göster
+                let imageUrl = product.imageUrl || '../img/shoe.png';
+                
+                // Eğer imageUrl bir dosya adıysa (örn: adminIcon.png)
+                if (imageUrl && !imageUrl.startsWith('/') && !imageUrl.includes('/')) {
+                    imageUrl = `/img/image_url/${imageUrl}`;
+                }
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${product.id}</td>
                     <td>
-                        <img src="${product.imageUrl || '../img/shoe.png'}" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
+                        <img src="${imageUrl}" alt="Ürün Görseli" width="40" height="40" style="object-fit: cover; border-radius: 4px;">
                     </td>
                     <td>${product.name}</td>
                     <td>${product.categoryName || ''}</td>

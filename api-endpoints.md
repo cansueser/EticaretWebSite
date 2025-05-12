@@ -12,7 +12,7 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
   - `size` (opsiyonel) - Sayfa başına ürün sayısı (default: 10)
 - **Başarılı Yanıt**:
   - Kod: 200 OK
-  - İçerik: `{ "totalItems": 100, "content": [...], "totalPages": 10, "currentPage": 0 }`
+  - İçerik: `{ "totalItems": 100, "content": [{ "id": 7, "name": "Tablet Pad 10", "description": "10 inç ekranlı tablet", "price": 8000.00, "categoryId": 1, "stockQuantity": 40, "color": "Gri", "status": true, "size": null, "imageUrl": "tablet-resmi.jpg" }, ...], "totalPages": 10, "currentPage": 0 }`
 
 ### Kategoriye Göre Ürünleri Listeleme
 - **URL**: `/api/urunler/kategori/{kategoriId}`
@@ -31,7 +31,7 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **URL Parametreleri**: `id` - Ürün ID'si
 - **Başarılı Yanıt**:
   - Kod: 200 OK
-  - İçerik: `{ "id": 1, "name": "Ürün Adı", ... }`
+  - İçerik: `{ "id": 7, "name": "Tablet Pad 10", "description": "10 inç ekranlı tablet", "price": 8000.00, "categoryId": 1, "stockQuantity": 40, "color": "Gri", "status": true, "size": null, "imageUrl": "tablet-resmi.jpg" }`
 - **Hata Yanıtı**:
   - Kod: 404 Not Found
   - İçerik: `{ "message": "Ürün bulunamadı" }`
@@ -39,7 +39,7 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 ### Ürün Kaydetme
 - **URL**: `/api/urunler`
 - **Method**: `POST`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **Request Body**:
 ```json
 {
@@ -54,14 +54,11 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **Başarılı Yanıt**:
   - Kod: 201 Created
   - İçerik: `{ "id": 1, "name": "Ürün Adı", ... }`
-- **Hata Yanıtları**:
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ### Ürün Düzenleme
 - **URL**: `/api/urunler/{id}`
 - **Method**: `PUT`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **URL Parametreleri**: `id` - Ürün ID'si
 - **Request Body**:
 ```json
@@ -77,24 +74,20 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **Başarılı Yanıt**:
   - Kod: 200 OK
   - İçerik: `{ "id": 1, "name": "Güncellenmiş Ürün Adı", ... }`
-- **Hata Yanıtları**:
+- **Hata Yanıtı**:
   - Kod: 404 Not Found
   - İçerik: `{ "message": "Ürün bulunamadı" }`
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ### Ürün Silme
 - **URL**: `/api/urunler/{id}`
 - **Method**: `DELETE`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **URL Parametreleri**: `id` - Ürün ID'si
 - **Başarılı Yanıt**:
   - Kod: 204 No Content
-- **Hata Yanıtları**:
+- **Hata Yanıtı**:
   - Kod: 404 Not Found
   - İçerik: `{ "message": "Ürün bulunamadı" }`
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ## Kategori Endpointleri
 
@@ -119,7 +112,7 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 ### Kategori Ekleme
 - **URL**: `/api/kategoriler`
 - **Method**: `POST`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **Request Body**:
 ```json
 {
@@ -130,14 +123,11 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **Başarılı Yanıt**:
   - Kod: 201 Created
   - İçerik: `{ "id": 1, "name": "Yeni Kategori", ... }`
-- **Hata Yanıtları**:
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ### Kategori Düzenleme
 - **URL**: `/api/kategoriler/{id}`
 - **Method**: `PUT`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **URL Parametreleri**: `id` - Kategori ID'si
 - **Request Body**:
 ```json
@@ -149,24 +139,20 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **Başarılı Yanıt**:
   - Kod: 200 OK
   - İçerik: `{ "id": 1, "name": "Güncellenmiş Kategori", ... }`
-- **Hata Yanıtları**:
+- **Hata Yanıtı**:
   - Kod: 404 Not Found
   - İçerik: `{ "message": "Kategori bulunamadı" }`
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ### Kategori Silme
 - **URL**: `/api/kategoriler/{id}`
 - **Method**: `DELETE`
-- **Yetki**: Admin (permission=true)
+- **Yetki**: Admin
 - **URL Parametreleri**: `id` - Kategori ID'si
 - **Başarılı Yanıt**:
   - Kod: 204 No Content
-- **Hata Yanıtları**:
+- **Hata Yanıtı**:
   - Kod: 404 Not Found
   - İçerik: `{ "message": "Kategori bulunamadı" }`
-  - Kod: 403 Forbidden
-  - İçerik: `{ "message": "Bu işlem için admin yetkisi gereklidir" }`
 
 ## Kimlik Doğrulama Endpointleri
 
