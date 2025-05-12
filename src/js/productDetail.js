@@ -74,11 +74,114 @@ function displayProductDetail(product) {
     thumbnail.alt = product.name;
   });
   
-  // Update product description in the detailed section
-  const detailedDescriptionEl = document.querySelector('.mt-6.pb-6.border-b.border-gray-200 p');
-  if (detailedDescriptionEl && product.description) {
-    detailedDescriptionEl.innerHTML = product.description.split('\n').join('<br><br>');
+  // Handle color and size display
+  updateColorAndSizeInfo(product);
+  
+  // Setup quantity buttons
+  setupQuantityButtons();
+  
+  // Update product description in the detailed section with more detailed content
+  updateDetailedDescription(product);
+}
+
+// Update color and size information
+function updateColorAndSizeInfo(product) {
+  // Get the container that will hold our color and size info
+  const colorSizeContainer = document.querySelector('.mt-6.flex.gap-3');
+  if (!colorSizeContainer) return;
+  
+  // Clear existing content
+  colorSizeContainer.innerHTML = '';
+  
+  // Create a simple div to hold color and size info
+  const infoDiv = document.createElement('div');
+  infoDiv.className = 'w-full';
+  
+  let infoHTML = '';
+  
+  // Add color info if available
+  if (product.color) {
+    infoHTML += `<p class="text-gray-700 mb-2"><span class="font-medium">Renk:</span> ${product.color}</p>`;
   }
+  
+  // Add size info if available
+  if (product.size) {
+    infoHTML += `<p class="text-gray-700"><span class="font-medium">Beden:</span> ${getSizeText(product.size)}</p>`;
+  }
+  
+  // Set the HTML content
+  infoDiv.innerHTML = infoHTML;
+  
+  // Add to the container
+  colorSizeContainer.appendChild(infoDiv);
+}
+
+// Convert size number to text representation
+function getSizeText(sizeNumber) {
+  const sizeMap = {
+    0: 'XS',
+    1: 'S',
+    2: 'M',
+    3: 'L',
+    4: 'XL',
+    5: 'XXL'
+  };
+  return sizeMap[sizeNumber] || sizeNumber;
+}
+
+// Setup quantity buttons functionality
+function setupQuantityButtons() {
+  const decreaseBtn = document.querySelector('.flex.items-center.border.rounded-md button:first-child');
+  const increaseBtn = document.querySelector('.flex.items-center.border.rounded-md button:last-child');
+  const quantitySpan = document.querySelector('.flex.items-center.border.rounded-md span');
+  
+  if (!decreaseBtn || !increaseBtn || !quantitySpan) return;
+  
+  let quantity = 1;
+  
+  decreaseBtn.addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity--;
+      quantitySpan.textContent = quantity;
+    }
+  });
+  
+  increaseBtn.addEventListener('click', () => {
+    quantity++;
+    quantitySpan.textContent = quantity;
+  });
+}
+
+// Update detailed product description with enhanced content
+function updateDetailedDescription(product) {
+  const detailedDescriptionEl = document.querySelector('.mt-6.pb-6.border-b.border-gray-200 p');
+  if (!detailedDescriptionEl) return;
+  
+  // Basic description from product
+  let descriptionHTML = product.description || '';
+  
+  // Add additional detailed information
+  const additionalDetails = `
+    <br><br><strong>Ürün Özellikleri:</strong><br><br>
+    • Yüksek kaliteli malzemeler kullanılarak üretilmiştir<br>
+    • Uzun ömürlü ve dayanıklı yapı<br>
+    • Ergonomik tasarım ile maksimum konfor<br>
+    • Modern ve şık görünüm<br>
+    • Günlük kullanım için idealdir<br><br>
+    
+    <strong>Bakım Talimatları:</strong><br><br>
+    • 30°C'de nazikçe yıkayınız<br>
+    • Beyazlatıcı kullanmayınız<br>
+    • Düşük ısıda ütüleyiniz<br>
+    • Kuru temizleme yapmayınız<br>
+    • Doğrudan güneş ışığından uzak tutunuz<br><br>
+    
+    <strong>Ürün Kodu:</strong> ${product.id || 'LT-' + Math.floor(Math.random() * 10000)}<br>
+    <strong>Stok Durumu:</strong> ${product.stockQuantity || 'Stokta var'}<br>
+    <strong>Garanti:</strong> 2 Yıl
+  `;
+  
+  detailedDescriptionEl.innerHTML = descriptionHTML + additionalDetails;
 }
 
 // Fetch similar products in the same category
