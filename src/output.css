@@ -1036,6 +1036,13 @@
       }
     }
   }
+  .group-hover\:text-green-button {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-green-button);
+      }
+    }
+  }
   .group-hover\:opacity-100 {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
