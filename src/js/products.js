@@ -16,26 +16,35 @@ function createProductTemplate(product) {
     }
   }
   
-  return `
-    <div class="relative w-full h-full group">
-      <img src="${imageUrl}" class="w-full h-72 hover:cursor-pointer object-cover">
-      
-      <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
-        <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
-      </div>
+  // Ürün kartı HTML'i
+  const productElement = document.createElement('div');
+  productElement.className = 'relative w-full h-full group';
+  productElement.innerHTML = `
+    <img src="${imageUrl}" class="w-full h-72 hover:cursor-pointer object-cover">
+    
+    <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
+    </div>
 
-      <div class="mt-2">
-        <p class="text-[14px] font-medium">${product.name}</p>
-      </div>
-      <div>
-        <p class="text-green-600 font-bold">${product.price} TL</p>
-      </div>
-      <div class="flex gap-1 mt-1">
-        ${ratingHtml}
-      </div>
+    <div class="mt-2">
+      <p class="text-[14px] font-medium">${product.name}</p>
+    </div>
+    <div>
+      <p class="text-green-600 font-bold">${product.price} TL</p>
+    </div>
+    <div class="flex gap-1 mt-1">
+      ${ratingHtml}
     </div>
   `;
+  
+  // Ürüne tıklandığında ürün detay sayfasına yönlendir
+  productElement.addEventListener('click', function() {
+    console.log("Ürün tıklandı: ", product.id);
+    window.location.href = `./productDetail.html?id=${product.id}`;
+  });
+  
+  return productElement;
 }
 
 // En çok satan ürünleri getiren fonksiyon
@@ -51,7 +60,7 @@ async function getTopProducts() {
     
     // İlk 4 ürünü göster
     data.content.forEach(product => {
-      topProductsContainer.innerHTML += createProductTemplate(product);
+      topProductsContainer.appendChild(createProductTemplate(product));
     });
   } catch (error) {
     console.error('Ürün verileri alınamadı:', error);
@@ -59,11 +68,12 @@ async function getTopProducts() {
     const topProductsContainer = document.getElementById('top-products');
     for (let i = 0; i < 4; i++) {
       const defaultProduct = {
+        id: i + 100,
         name: "Bordo Rengi Topuklu Ayakkabı",
         price: 250,
         imageUrl: "/img/shoe.png"
       };
-      topProductsContainer.innerHTML += createProductTemplate(defaultProduct);
+      topProductsContainer.appendChild(createProductTemplate(defaultProduct));
     }
   }
 }
@@ -81,7 +91,7 @@ async function getFeaturedProducts() {
     
     // En fazla 10 ürün göster
     data.content.forEach(product => {
-      featuredProductsContainer.innerHTML += createProductTemplate(product);
+      featuredProductsContainer.appendChild(createProductTemplate(product));
     });
   } catch (error) {
     console.error('Ürün verileri alınamadı:', error);
@@ -89,11 +99,12 @@ async function getFeaturedProducts() {
     const featuredProductsContainer = document.getElementById('featured-products');
     for (let i = 0; i < 10; i++) {
       const defaultProduct = {
+        id: i + 200,
         name: "Bordo Rengi Topuklu Ayakkabı",
         price: 250,
         imageUrl: "/img/shoe.png"
       };
-      featuredProductsContainer.innerHTML += createProductTemplate(defaultProduct);
+      featuredProductsContainer.appendChild(createProductTemplate(defaultProduct));
     }
   }
 }

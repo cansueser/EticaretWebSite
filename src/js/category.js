@@ -125,7 +125,7 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     let displayedCount = 0;
     filteredProducts.forEach(product => {
       if (displayedCount < pageSize) {
-        productsContainer.innerHTML += createProductTemplate(product);
+        productsContainer.appendChild(createProductTemplate(product));
         displayedCount++;
       }
     });
@@ -135,11 +135,9 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     console.log(`Boş slot sayısı: ${remainingSlots}`);
     
     for (let i = 0; i < remainingSlots; i++) {
-      productsContainer.innerHTML += `
-        <div class="relative w-full h-full opacity-0">
-          <!-- Boş slot -->
-        </div>
-      `;
+      const emptySlot = document.createElement('div');
+      emptySlot.className = 'relative w-full h-full opacity-0';
+      productsContainer.appendChild(emptySlot);
     }
     
     // Sayfa durumunu güncelle ve toplam sayfa sayısını al
@@ -154,12 +152,13 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     // HER ZAMAN TAM OLARAK 12 ÜRÜN GÖSTER
     for (let i = 0; i < pageSize; i++) {
       const defaultProduct = {
+        id: i + 300,
         name: "Bordo Rengi Topuklu Ayakkabı",
         price: 250,
         imageUrl: "/img/shoe.png",
         rating: 4
       };
-      productsContainer.innerHTML += createProductTemplate(defaultProduct);
+      productsContainer.appendChild(createProductTemplate(defaultProduct));
     }
     
     // Varsayılan sayfalama
@@ -266,12 +265,15 @@ function setupPriceFilter() {
   });
 }
 
-// Ürün template oluşturma fonksiyonu
+// Ürün template oluşturma
 function createProductTemplate(product) {
-  // product.imageUrl yoksa varsayılan resmi kullan
+  // Image URL kontrolü
   const imageUrl = product.imageUrl || '/img/shoe.png';
   
-  // Yıldız rating'i oluştur (0-5 arasında)
+  // Ürün fiyatı
+  const price = product.price || 0;
+  
+  // Yıldız derecelendirmesi
   const rating = product.rating || Math.floor(Math.random() * 5) + 1;
   let ratingHtml = '';
   for (let i = 0; i < 5; i++) {
@@ -282,26 +284,33 @@ function createProductTemplate(product) {
     }
   }
   
-  return `
-    <div class="relative w-full h-full group">
-      <img src="${imageUrl}" class="w-full h-72 hover:cursor-pointer object-cover">
-      
-      <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <img src="/img/favorite.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Favorilere ekle">
-        <img src="/img/cartIcon.png" class="w-6 h-6 hover:cursor-pointer hover:scale-110 transition-transform" alt="Sepete ekle">
-      </div>
-
-      <div class="mt-2">
-        <p class="text-[14px] font-medium">${product.name}</p>
-      </div>
-      <div>
-        <p class="text-green-600 font-bold">${product.price} TL</p>
-      </div>
-      <div class="flex gap-1 mt-1">
-        ${ratingHtml}
-      </div>
+  // Ürün kartı HTML'i
+  const productElement = document.createElement('div');
+  productElement.className = 'relative w-full h-full group cursor-pointer';
+  productElement.innerHTML = `
+    <img src="${imageUrl}" class="w-full h-72 object-cover">
+    <div class="absolute top-0 right-0 p-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <img src="/img/favorite.png" class="w-6 h-6 hover:scale-110 transition-transform" alt="Favorilere ekle">
+      <img src="/img/cartIcon.png" class="w-6 h-6 hover:scale-110 transition-transform" alt="Sepete ekle">
+    </div>
+    <div class="mt-2">
+      <p class="text-[14px] font-medium">${product.name}</p>
+    </div>
+    <div>
+      <p class="text-green-600 font-bold">${price} TL</p>
+    </div>
+    <div class="flex gap-1 mt-1">
+      ${ratingHtml}
     </div>
   `;
+  
+  // Ürüne tıklandığında ürün detay sayfasına yönlendir
+  productElement.addEventListener('click', function() {
+    console.log("Ürün tıklandı: ", product.id);
+    window.location.href = `./productDetail.html?id=${product.id}`;
+  });
+  
+  return productElement;
 }
 
 // Kategori tıklama olaylarını ayarla
