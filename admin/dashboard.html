@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"  href="/img/myIcon.png" type="image/png">
     <title>Admin Paneli - Dashboard</title>
     <link rel="stylesheet" href="admin.css">
     <!-- Font Awesome CDN eklendi -->
@@ -17,12 +18,12 @@
             --dark-gray: #343a40;
             --light-gray: #e9ecef;
         }
-        
+
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         .sidebar {
             background-color: var(--primary-light);
             color: #fff;
@@ -30,51 +31,51 @@
             flex-direction: column;
             height: 100%;
         }
-        
+
         .sidebar-menu {
             flex-grow: 1;
         }
-        
+
         .sidebar-menu a {
             color: rgba(255, 255, 255, 0.8);
         }
-        
+
         .sidebar-menu a:hover {
             background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
         }
-        
+
         .sidebar-menu a.active {
             background-color: var(--gray-color);
             color: #fff;
         }
-        
+
         .stats-card {
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
-        
+
         .stats-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
-        
+
         .table th {
             background-color: var(--light-gray);
             color: var(--secondary-color);
         }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
+
         .btn-primary:hover {
             background-color: var(--primary-light);
             border-color: var(--primary-light);
         }
-        
+
         .badge-success {
             background-color: var(--primary-color);
             color: white;
@@ -82,7 +83,7 @@
             border-radius: 4px;
             font-size: 0.75rem;
         }
-        
+
         .badge-warning {
             background-color: #ffc107;
             color: #212529;
@@ -90,7 +91,7 @@
             border-radius: 4px;
             font-size: 0.75rem;
         }
-        
+
         .badge-info {
             background-color: var(--gray-color);
             color: white;
@@ -162,7 +163,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="stats-card card" style="min-width: 200px; background-color: white; border-left: 4px solid var(--primary-color);">
                     <div class="card-body" style="padding: 10px; position: relative;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">

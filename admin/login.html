@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Paneli - Giriş</title>
     <link rel="stylesheet" href="admin.css">
+    <link rel="icon"  href="/img/myIcon.png" type="image/png">
     <!-- Font Awesome CDN eklendi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,7 +18,7 @@
             --dark-gray: #343a40;
             --light-gray: #e9ecef;
         }
-        
+
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -28,7 +29,7 @@
             justify-content: center;
             background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
         }
-        
+
         .login-container {
             background-color: white;
             border-radius: 10px;
@@ -37,40 +38,40 @@
             width: 400px;
             max-width: 90%;
         }
-        
+
         .login-header {
             background-color: var(--primary-color);
             color: white;
             padding: 25px;
             text-align: center;
         }
-        
+
         .login-header h1 {
             margin: 0;
             font-size: 1.8rem;
         }
-        
+
         .login-header p {
             margin: 10px 0 0;
             opacity: 0.8;
             font-size: 0.95rem;
         }
-        
+
         .login-form {
             padding: 30px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             color: var(--secondary-color);
             font-weight: 500;
         }
-        
+
         .form-control {
             width: 100%;
             padding: 12px 15px;
@@ -79,13 +80,13 @@
             font-size: 0.95rem;
             transition: border-color 0.3s;
         }
-        
+
         .form-control:focus {
             border-color: var(--primary-color);
             outline: none;
             box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
         }
-        
+
         .btn {
             background-color: var(--primary-color);
             color: white;
@@ -97,15 +98,15 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         .btn:hover {
             background-color: var(--primary-light);
         }
-        
+
         .icon-input {
             position: relative;
         }
-        
+
         .icon-input i {
             position: absolute;
             left: 12px;
@@ -113,37 +114,37 @@
             transform: translateY(-50%);
             color: var(--gray-color);
         }
-        
+
         .icon-input input {
             padding-left: 40px;
         }
-        
+
         .login-footer {
             padding: 0 30px 20px;
             text-align: center;
             color: var(--gray-color);
             font-size: 0.9rem;
         }
-        
+
         .alert {
             padding: 12px 15px;
             border-radius: 5px;
             margin-bottom: 20px;
             display: none;
         }
-        
+
         .alert-danger {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-        
+
         .alert-success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-        
+
         /* Responsive ayarlar */
         @media (max-width: 500px) {
             .login-container {
@@ -151,11 +152,11 @@
                 border-radius: 0;
                 height: 100%;
             }
-            
+
             .login-header {
                 padding: 20px;
             }
-            
+
             .login-form {
                 padding: 20px;
             }
@@ -168,18 +169,18 @@
             <h1>LuxeTrend Admin</h1>
             <p>Yönetici Paneline Giriş</p>
         </div>
-        
+
         <div class="login-form">
             <!-- Hata mesajı -->
             <div id="error-message" class="alert alert-danger">
                 <i class="fas fa-exclamation-circle"></i> Geçersiz e-posta veya şifre. Lütfen tekrar deneyin.
             </div>
-            
+
             <!-- Başarı mesajı -->
             <div id="success-message" class="alert alert-success">
                 <i class="fas fa-check-circle"></i> Giriş başarılı! Yönlendiriliyorsunuz...
             </div>
-            
+
             <form id="login-form">
                 <div class="form-group">
                     <label for="email">E-posta Adresi</label>
@@ -188,7 +189,7 @@
                         <input type="email" id="email" class="form-control" placeholder="admin@luxetrend.com" required>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="password">Şifre</label>
                     <div class="icon-input">
@@ -196,7 +197,7 @@
                         <input type="password" id="password" class="form-control" placeholder="••••••••" required>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <button type="submit" class="btn">
                         <i class="fas fa-sign-in-alt"></i> Giriş Yap
@@ -204,7 +205,7 @@
                 </div>
             </form>
         </div>
-        
+
         <div class="login-footer">
             <p>&copy; 2025 LuxeTrend. Tüm hakları saklıdır.</p>
         </div>
@@ -212,39 +213,39 @@
 
     <script type="module">
         import apiService from '../js/api-service.js';
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('login-form');
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
-            
+
             // Form gönderildiğinde
             loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                
+
                 // Form verilerini al
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
-                
+
                 // Hata ve başarı mesajlarını gizle
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'none';
-                
+
                 try {
                     // API'ye login isteği gönder
                     const response = await apiService.login(email, password);
-                    
+
                     // Başarılı giriş
                     if (response.success) {
                         // Kullanıcı bilgilerini sessionStorage'a kaydet
                         sessionStorage.setItem('admin', JSON.stringify(response.user));
-                        
+
                         // ApiService'de de kullanıcı bilgilerini ayarla
                         apiService.setCurrentUser(response.user);
-                        
+
                         // Başarı mesajını göster
                         successMessage.style.display = 'block';
-                        
+
                         // 1 saniye sonra dashboard'a yönlendir
                         setTimeout(function() {
                             window.location.href = 'dashboard.html';
