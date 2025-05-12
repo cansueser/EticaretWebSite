@@ -2,8 +2,8 @@ const BASE_URL = 'http://localhost:8080/api';
 let currentPage = 0;
 let selectedCategoryId = null;
 const pageSize = 12; // 4x3 grid
-let minPrice = 100;
-let maxPrice = 3000;
+let minPrice = 0;
+let maxPrice = 10000;
 
 // Sayfa yüklendiğinde çalışacak
 document.addEventListener('DOMContentLoaded', function() {
@@ -90,7 +90,7 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
   selectedCategoryId = categoryId;
   
   try {
-    // API URL'i oluştur - kategori varsa kategori filtresi ekle
+    // Her zaman tam olarak 12 ürün göster, API'ye 12 ürün talep et
     let apiUrl = `${BASE_URL}/urunler?page=${page}&size=${pageSize}`;
     if (categoryId) {
       apiUrl = `${BASE_URL}/urunler/kategori/${categoryId}?page=${page}&size=${pageSize}`;
@@ -104,11 +104,11 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     const data = await response.json();
     const productsContainer = document.getElementById('products-container');
     
-    // Ürünleri temizle
+    // Ürünleri temizle - HER SAYFADA ÖNCE CONTAINER SIFIRLANIR
     productsContainer.innerHTML = '';
     
     // Ürünleri filtrele ve ekle
-    let filteredProducts = data.content;
+    let filteredProducts = data.content || [];
     
     // Fiyat filtresini uygula
     if (applyPriceFilter) {
@@ -118,13 +118,22 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
       });
     }
     
+    // Kaç ürün gösterileceğini logla
+    console.log(`Filtrelenmiş ürün sayısı: ${filteredProducts.length}`);
+    
     // Filtrelenmiş ürünleri ekle
+    let displayedCount = 0;
     filteredProducts.forEach(product => {
-      productsContainer.innerHTML += createProductTemplate(product);
+      if (displayedCount < pageSize) {
+        productsContainer.innerHTML += createProductTemplate(product);
+        displayedCount++;
+      }
     });
     
-    // Boş ürün göster (grid'in tamamlanması için)
-    const remainingSlots = pageSize - filteredProducts.length;
+    // Eksik kalan ürün sayısı kadar boş slot ekle (GRID TAMAMLANSIN)
+    const remainingSlots = pageSize - displayedCount;
+    console.log(`Boş slot sayısı: ${remainingSlots}`);
+    
     for (let i = 0; i < remainingSlots; i++) {
       productsContainer.innerHTML += `
         <div class="relative w-full h-full opacity-0">
@@ -134,8 +143,6 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     }
     
     // Sayfa durumunu güncelle ve toplam sayfa sayısını al
-    // Filtrelenmiş ürünlere göre sayfalama yapmak daha karmaşık olacağından
-    // burada basitlik için orijinal sayfalama bilgisi kullanılıyor
     updatePagination(data.currentPage, data.totalPages);
     
   } catch (error) {
@@ -144,7 +151,8 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
     const productsContainer = document.getElementById('products-container');
     productsContainer.innerHTML = '';
     
-    for (let i = 0; i < 12; i++) {
+    // HER ZAMAN TAM OLARAK 12 ÜRÜN GÖSTER
+    for (let i = 0; i < pageSize; i++) {
       const defaultProduct = {
         name: "Bordo Rengi Topuklu Ayakkabı",
         price: 250,
@@ -161,27 +169,100 @@ async function loadProducts(categoryId, page, applyPriceFilter = true) {
 
 // Fiyat filtresini ayarla
 function setupPriceFilter() {
-  const priceSlider = document.getElementById('price-slider');
+  const minHandle = document.getElementById('min-handle');
+  const maxHandle = document.getElementById('max-handle');
+  const rangeTrack = document.getElementById('price-range-fill');
   const minPriceDisplay = document.getElementById('min-price-display');
   const maxPriceDisplay = document.getElementById('max-price-display');
   
-  // Slider değerini değiştirince fiyat aralığını güncelle
-  priceSlider.addEventListener('input', function() {
-    // Slider değeri yüzde olarak gelir (0-100)
-    const sliderValue = parseInt(this.value);
+  // Fiyat aralığı (TL)
+  const minPriceLimit = 0;
+  const maxPriceLimit = 10000;
+  
+  // Başlangıç değerlerini göster
+  minPriceDisplay.textContent = `${minPrice} TL`;
+  maxPriceDisplay.textContent = `${maxPrice} TL`;
+  
+  // Slider'daki yeşil alan güncelleme
+  function updateRangeFill() {
+    const minPercent = (minPrice / maxPriceLimit) * 100;
+    const maxPercent = (maxPrice / maxPriceLimit) * 100;
     
-    // Slider değerini fiyat aralığına dönüştür (100 TL - 3000 TL)
-    const priceRange = 3000 - 100;
-    const price = Math.round(100 + (sliderValue / 100) * priceRange);
-    
-    // Görüntülenen maksimum fiyatı güncelle
-    maxPrice = price;
-    maxPriceDisplay.textContent = `${maxPrice} TL`;
+    // Yeşil doldurma alanını güncelle
+    rangeTrack.style.left = `${minPercent}%`;
+    rangeTrack.style.right = `${100 - maxPercent}%`;
+  }
+  
+  // Başlangıçta yeşil alanı ayarla
+  updateRangeFill();
+  
+  // Sürükleme değişkenlerini tanımla
+  let isDraggingMin = false;
+  let isDraggingMax = false;
+  
+  // Min handle için mouse down olayı
+  minHandle.addEventListener('mousedown', function(e) {
+    isDraggingMin = true;
+    e.preventDefault(); // Metnin seçilmesini önle
   });
   
-  // Slider bırakıldığında ürünleri yeniden yükle
-  priceSlider.addEventListener('change', function() {
-    loadProducts(selectedCategoryId, 0, true);
+  // Max handle için mouse down olayı
+  maxHandle.addEventListener('mousedown', function(e) {
+    isDraggingMax = true;
+    e.preventDefault(); // Metnin seçilmesini önle
+  });
+  
+  // Document üzerinde mouse move olayı
+  document.addEventListener('mousemove', function(e) {
+    if (!isDraggingMin && !isDraggingMax) return;
+    
+    // Slider'ın konum bilgilerini al
+    const sliderRect = rangeTrack.parentElement.getBoundingClientRect();
+    const sliderWidth = sliderRect.width;
+    
+    // Mouse pozisyonunu hesapla (0-1 arası)
+    let mousePos = (e.clientX - sliderRect.left) / sliderWidth;
+    
+    // Sınırları kontrol et
+    mousePos = Math.max(0, Math.min(mousePos, 1));
+    
+    // Mouse pozisyonunu fiyata dönüştür
+    const price = Math.round(mousePos * maxPriceLimit);
+    
+    if (isDraggingMin) {
+      // Minimum fiyat, maksimum fiyattan büyük olamaz
+      minPrice = Math.min(price, maxPrice - 500);
+      
+      // Handle pozisyonunu güncelle
+      minHandle.style.left = `${(minPrice / maxPriceLimit) * 100}%`;
+      
+      // Minimum fiyat gösterimini güncelle
+      minPriceDisplay.textContent = `${minPrice} TL`;
+    } else if (isDraggingMax) {
+      // Maksimum fiyat, minimum fiyattan küçük olamaz
+      maxPrice = Math.max(price, minPrice + 500);
+      
+      // Handle pozisyonunu güncelle
+      maxHandle.style.left = `${(maxPrice / maxPriceLimit) * 100}%`;
+      
+      // Maksimum fiyat gösterimini güncelle
+      maxPriceDisplay.textContent = `${maxPrice} TL`;
+    }
+    
+    // Yeşil alanı güncelle
+    updateRangeFill();
+  });
+  
+  // Mouse bırakıldığında sürüklemeyi durdur
+  document.addEventListener('mouseup', function() {
+    if (isDraggingMin || isDraggingMax) {
+      // Sürüklemeyi bitir
+      isDraggingMin = false;
+      isDraggingMax = false;
+      
+      // Ürünleri filtrele
+      loadProducts(selectedCategoryId, 0, true);
+    }
   });
 }
 
