@@ -823,11 +823,14 @@ class AdminUI {
         // Gerekli alanları kontrol et
         if (!productNameInput || !productCategorySelect || !productPriceInput || !newProductForm || !productForm) return;
         
-        let imageUrl = "/img/image_url/urun-resmi.jpg"; // Varsayılan resim
+        // Varsayılan olarak her türlü resim formatını destekleyelim
+        let imageUrl = "/img/image_url/urun-resmi.jpg"; 
         
         // Yeni resim yüklendiyse onu kullan
         if (imageInput?.files.length > 0) {
-            imageUrl = `/img/image_url/${imageInput.files[0].name}`;
+            // Dosya adını tam olarak kullan, uzantıyı değiştirmeden
+            const fileName = imageInput.files[0].name;
+            imageUrl = `/img/image_url/${fileName}`;
         } 
         // Düzenleme modunda ve yeni resim seçilmediyse var olan resmi kullan
         else if (this.editMode && this.editingProduct) {
@@ -839,7 +842,7 @@ class AdminUI {
                     // Zaten doğru formatta
                     imageUrl = originalImageUrl;
                 } else {
-                    // Sadece dosya adını al ve doğru formata dönüştür
+                    // Dosya adını tam olarak al, uzantıyı değiştirmeden
                     const fileName = originalImageUrl.split('/').pop() || "urun-resmi.jpg";
                     imageUrl = `/img/image_url/${fileName}`;
                 }
