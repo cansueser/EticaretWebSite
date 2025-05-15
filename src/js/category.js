@@ -3,7 +3,7 @@ let currentPage = 0;
 let selectedCategoryId = null;
 const pageSize = 12; // 4x3 grid
 let minPrice = 0;
-let maxPrice = 10000;
+let maxPrice = 50000;
 
 // Sayfa yüklendiğinde çalışacak
 document.addEventListener('DOMContentLoaded', function() {
@@ -176,7 +176,7 @@ function setupPriceFilter() {
   
   // Fiyat aralığı (TL)
   const minPriceLimit = 0;
-  const maxPriceLimit = 10000;
+  const maxPriceLimit = 50000;
   
   // Başlangıç değerlerini göster
   minPriceDisplay.textContent = `${minPrice} TL`;
@@ -340,26 +340,38 @@ function setupCategoryClickEvents() {
 function setupPagination() {
   const paginationContainer = document.getElementById('pagination-container');
   
-  // Sayfalama butonlarına tıklama olayları ekle (hali hazırda HTML'de varsa)
+  // Sayfalama butonlarına tıklama olayları ekle
   paginationContainer.addEventListener('click', function(e) {
     if (e.target.tagName === 'BUTTON') {
       const action = e.target.getAttribute('data-action');
       
+      if (!action) {
+        // ... butonu veya tıklanabilir olmayan butonlar için hiçbir şey yapma
+        return;
+      }
+      
       if (action === 'next') {
-        loadProducts(selectedCategoryId, currentPage + 1);
+        // Son sayfada değilsek ileri git
+        const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages'));
+        if (currentPage < totalPages - 1) {
+          loadProducts(selectedCategoryId, currentPage + 1);
+        }
       } else if (action === 'prev') {
+        // İlk sayfada değilsek geri git
         if (currentPage > 0) {
           loadProducts(selectedCategoryId, currentPage - 1);
         }
-      } else if (action === 'last') {
-        const lastPage = parseInt(paginationContainer.getAttribute('data-total-pages')) - 1;
-        loadProducts(selectedCategoryId, lastPage);
       } else if (action === 'first') {
-        loadProducts(selectedCategoryId, 0);
-      } else {
-        // Sayfa numarasına tıklandı
+        // İlk sayfada değilsek ilk sayfaya git
+        if (currentPage !== 0) {
+          loadProducts(selectedCategoryId, 0);
+        }
+      } else if (action === 'page') {
+        // Sayfa numarasına tıklandıysa o sayfaya git
         const pageNumber = parseInt(e.target.textContent) - 1;
-        loadProducts(selectedCategoryId, pageNumber);
+        if (pageNumber !== currentPage) {
+          loadProducts(selectedCategoryId, pageNumber);
+        }
       }
     }
   });
@@ -372,31 +384,61 @@ function updatePagination(currentPage, totalPages) {
   
   let paginationHTML = '';
   
-  // Sayfa 1 ekle (1-indexed gösterim)
+  // Önceki sayfa butonunu ekle
+  paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}" data-action="prev">&lt;</button>`;
+  
+  // İlk sayfa butonunu ekle
   paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === 0 ? 'text-green-button' : ''}" data-action="first">1</button>`;
   
-  // Toplam sayfa sayısı 5'ten azsa, tüm sayfaları göster
-  if (totalPages <= 5) {
+  // Toplam sayfa sayısı
+  if (totalPages <= 7) {
+    // Az sayfa durumunda tüm sayfa numaralarını göster
     for (let i = 1; i < totalPages; i++) {
       paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === i ? 'text-green-button' : ''}" data-action="page">${i + 1}</button>`;
     }
   } else {
-    // Orta sayfalar
-    const startPage = Math.max(1, Math.min(currentPage - 1, totalPages - 4));
-    const endPage = Math.min(startPage + 2, totalPages - 1);
+    // Çok sayfa durumunda mantıklı aralıkları göster
     
-    for (let i = startPage; i < endPage; i++) {
-      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === i ? 'text-green-button' : ''}" data-action="page">${i + 1}</button>`;
+    // Aktif sayfanın etrafında her zaman 1 sayfa göster
+    let startPage, endPage;
+    
+    if (currentPage <= 3) {
+      // Başta olduğumuzda ilk 5 sayfayı göster
+      startPage = 1;
+      endPage = 5;
+      
+      paginationHTML += renderPageButtons(startPage, endPage, currentPage);
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer">...</button>`;
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button" data-action="page">${totalPages}</button>`;
+      
+    } else if (currentPage >= totalPages - 4) {
+      // Sonda olduğumuzda son 5 sayfayı göster
+      startPage = totalPages - 5;
+      endPage = totalPages - 1;
+      
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer">...</button>`;
+      paginationHTML += renderPageButtons(startPage, endPage, currentPage);
+      
+    } else {
+      // Ortada olduğumuzda öncesi ve sonrası için ... koy
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer">...</button>`;
+      paginationHTML += renderPageButtons(currentPage - 1, currentPage + 1, currentPage);
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer">...</button>`;
+      paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button" data-action="page">${totalPages}</button>`;
     }
-    
-    // "..." ve son sayfa
-    paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button" data-action="ellipsis">...</button>`;
-    paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === totalPages - 1 ? 'text-green-button' : ''}" data-action="last">${totalPages}</button>`;
   }
   
-  // Sonraki ve son sayfa butonları
-  paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button" data-action="next">></button>`;
-  paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button" data-action="last">>></button>`;
+  // Sonraki sayfa butonu
+  paginationHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''}" data-action="next">&gt;</button>`;
   
   paginationContainer.innerHTML = paginationHTML;
-} 
+}
+
+// Sayfa düğmelerini oluşturan yardımcı fonksiyon
+function renderPageButtons(start, end, currentPage) {
+  let buttonsHTML = '';
+  for (let i = start; i <= end; i++) {
+    buttonsHTML += `<button class="w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:text-green-button ${currentPage === i ? 'text-green-button' : ''}" data-action="page">${i + 1}</button>`;
+  }
+  return buttonsHTML;
+}
