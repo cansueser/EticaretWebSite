@@ -172,6 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
         couponDiscount = data.discountValue || 0;
         appliedCouponCode = couponCode;
         
+        // Kupon bilgilerini localStorage'a kaydet
+        localStorage.setItem('couponDiscount', couponDiscount);
+        localStorage.setItem('appliedCouponCode', appliedCouponCode);
+        
         showMessage('Kupon başarıyla uygulandı', 'success');
         
         // Sepet toplamını güncelle
@@ -191,6 +195,11 @@ document.addEventListener('DOMContentLoaded', function() {
       if (couponCode === 'YENIUYE20') {
         couponDiscount = 20;
         appliedCouponCode = couponCode;
+        
+        // Kupon bilgilerini localStorage'a kaydet
+        localStorage.setItem('couponDiscount', couponDiscount);
+        localStorage.setItem('appliedCouponCode', appliedCouponCode);
+        
         showMessage('Kupon başarıyla uygulandı', 'success');
         
         // Sepet toplamını güncelle
@@ -200,6 +209,11 @@ document.addEventListener('DOMContentLoaded', function() {
       } else if (couponCode === 'YENIUYE25') {
         couponDiscount = 25;
         appliedCouponCode = couponCode;
+        
+        // Kupon bilgilerini localStorage'a kaydet
+        localStorage.setItem('couponDiscount', couponDiscount);
+        localStorage.setItem('appliedCouponCode', appliedCouponCode);
+        
         showMessage('Kupon başarıyla uygulandı', 'success');
         
         // Sepet toplamını güncelle
@@ -242,15 +256,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (confirmCartButton) {
     confirmCartButton.addEventListener('click', function() {
-      // Sepeti temizle
-      cart = [];
-      couponDiscount = 0;
-      appliedCouponCode = '';
-      saveCart();
-      updateCart();
+      // Sepet boşsa işlem yapma
+      if (cart.length === 0) {
+        showMessage('Sepetinizde ürün bulunmamaktadır!', 'error');
+        return;
+      }
       
-      // Sepet onaylandı mesajını göster
-      showMessage('Siparişiniz onaylandı!', 'success');
+      // Sepeti onaylayıp ödeme sayfasına yönlendir
+      window.location.href = 'payment.html';
     });
   }
   
