@@ -102,8 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Sepet toplamlarını güncelle
   function updateCartTotals(total, itemCount) {
-    const subtotalElement = document.querySelector('div.space-y-2.mb-3 div:nth-child(1) span:nth-child(2)');
-    const totalElement = document.querySelector('div.border-t.pt-3 div span:nth-child(2)');
+    // Direkt olarak HTML elementlerini seçelim
+    const subtotalElement = document.querySelector('.space-y-3.mb-3.text-base div:first-child span:last-child');
+    const totalElement = document.querySelector('.border-t.pt-3 div span:last-child');
     
     // Kupon indirimi göster/gizle
     const discountRow = document.querySelector('.coupon-discount-row');
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       `;
       
-      const parentElement = document.querySelector('div.space-y-2.mb-3');
+      const parentElement = document.querySelector('.space-y-3.mb-3.text-base');
       if (parentElement) {
         parentElement.insertAdjacentHTML('beforeend', discountHTML);
       }
@@ -134,8 +135,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sepet toplamını güncelle
     const finalTotal = Math.max(0, total - couponDiscount);
     
-    if (subtotalElement) subtotalElement.textContent = `${total.toLocaleString('tr-TR')} TL`;
-    if (totalElement) totalElement.textContent = `${finalTotal.toLocaleString('tr-TR')} TL`;
+    // Toplam değerlerini güncelle
+    if (subtotalElement) {
+      subtotalElement.textContent = `${total.toLocaleString('tr-TR')} TL`;
+      console.log('Ara toplam güncellendi:', subtotalElement.textContent);
+    } else {
+      console.error('Ara toplam elementi bulunamadı!');
+    }
+    
+    if (totalElement) {
+      totalElement.textContent = `${finalTotal.toLocaleString('tr-TR')} TL`;
+      console.log('Toplam güncellendi:', totalElement.textContent);
+    } else {
+      console.error('Toplam elementi bulunamadı!');
+    }
   }
   
   // Sepeti localStorage'a kaydet
@@ -177,5 +190,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Kupon kodu uygulama butonu - Düzeltilmiş, hiçbir aksiyona neden olmayacak
   const applyCouponButton = document.querySelector('.bg-white.p-4.rounded-lg.border button');
   if (applyCouponButton) {
+    applyCouponButton.addEventListener('click', function(e) {
+      // Olayı engelle
+      e.preventDefault();
+      e.stopPropagation();
+    });
   }
 }); 

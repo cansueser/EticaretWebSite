@@ -172,3 +172,85 @@ Bu dokümantasyon, LuxeTrend uygulamasının REST API endpointlerini listelemekt
 - **Hata Yanıtı**:
   - Kod: 401 Unauthorized
   - İçerik: `{ "success": false, "message": "Hatalı kullanıcı adı veya şifre" }`
+
+## Kupon Endpointleri
+
+### Kuponları Listeleme
+- **URL**: `/api/kuponlar`
+- **Method**: `GET`
+- **Yetki**: Admin
+- **Başarılı Yanıt**:
+  - Kod: 200 OK
+  - İçerik: `[{ "id": 1, "code": "YENIUYE20", "discountValue": 20.00, "startDate": "2023-01-01T00:00:00", "endDate": "2023-12-31T23:59:59" }, ...]`
+
+### Kupon Detayı
+- **URL**: `/api/kuponlar/{id}`
+- **Method**: `GET`
+- **Yetki**: Admin
+- **URL Parametreleri**: `id` - Kupon ID'si
+- **Başarılı Yanıt**:
+  - Kod: 200 OK
+  - İçerik: `{ "id": 1, "code": "YENIUYE20", "discountValue": 20.00, "startDate": "2023-01-01T00:00:00", "endDate": "2023-12-31T23:59:59" }`
+- **Hata Yanıtı**:
+  - Kod: 404 Not Found
+  - İçerik: `{ "message": "Kupon bulunamadı" }`
+
+### Kupon Ekleme
+- **URL**: `/api/kuponlar`
+- **Method**: `POST`
+- **Yetki**: Admin
+- **Request Body**:
+```json
+{
+  "code": "YENIUYE20",
+  "discountValue": 20.00,
+  "startDate": "2023-01-01T00:00:00",
+  "endDate": "2023-12-31T23:59:59"
+}
+```
+- **Başarılı Yanıt**:
+  - Kod: 201 Created
+  - İçerik: `{ "id": 1, "code": "YENIUYE20", "discountValue": 20.00, "startDate": "2023-01-01T00:00:00", "endDate": "2023-12-31T23:59:59" }`
+
+### Kupon Düzenleme
+- **URL**: `/api/kuponlar/{id}`
+- **Method**: `PUT`
+- **Yetki**: Admin
+- **URL Parametreleri**: `id` - Kupon ID'si
+- **Request Body**:
+```json
+{
+  "code": "YENIUYE25",
+  "discountValue": 25.00,
+  "startDate": "2023-01-01T00:00:00",
+  "endDate": "2023-12-31T23:59:59"
+}
+```
+- **Başarılı Yanıt**:
+  - Kod: 200 OK
+  - İçerik: `{ "id": 1, "code": "YENIUYE25", "discountValue": 25.00, "startDate": "2023-01-01T00:00:00", "endDate": "2023-12-31T23:59:59" }`
+- **Hata Yanıtı**:
+  - Kod: 404 Not Found
+  - İçerik: `{ "message": "Kupon bulunamadı" }`
+
+### Kupon Silme
+- **URL**: `/api/kuponlar/{id}`
+- **Method**: `DELETE`
+- **Yetki**: Admin
+- **URL Parametreleri**: `id` - Kupon ID'si
+- **Başarılı Yanıt**:
+  - Kod: 204 No Content
+- **Hata Yanıtı**:
+  - Kod: 404 Not Found
+  - İçerik: `{ "message": "Kupon bulunamadı" }`
+
+### Kupon Doğrulama
+- **URL**: `/api/kuponlar/dogrula/{kuponKodu}`
+- **Method**: `GET`
+- **URL Parametreleri**: `kuponKodu` - Kupon Kodu
+- **Başarılı Yanıt**:
+  - Kod: 200 OK
+  - İçerik: `{ "valid": true, "discountValue": 20.00 }`
+- **Hata Yanıtı**:
+  - Kod: 404 Not Found
+  - İçerik: `{ "valid": false, "message": "Geçersiz kupon kodu" }`
