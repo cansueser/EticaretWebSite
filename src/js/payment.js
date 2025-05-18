@@ -68,13 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Sipariş özeti toplamlarını güncelle
   function updateOrderSummary(total, discount) {
-    const subtotalElement = document.querySelector('.lg\\:w-1\\/3 .space-y-3 div:first-child span:last-child');
     const totalElement = document.querySelector('.lg\\:w-1\\/3 .flex.justify-between.text-lg.font-bold span:last-child');
     
-    if (subtotalElement && totalElement) {
-      // Ara toplamı güncelle
-      subtotalElement.textContent = `${total.toLocaleString('tr-TR')} TL`;
-      
+    if (totalElement) {
       // Kupon indirimi varsa göster
       let discountElement = document.querySelector('.coupon-discount-row');
       
