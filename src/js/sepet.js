@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Butonlara tıklama olayları ekle
   const continueShoppingButton = document.querySelector('button.bg-white.text-green-600');
-  const confirmCartButton = document.querySelector('button.bg-green-600.text-white');
+  const confirmCartButton = document.querySelector('button.bg-green-600.text-white:not(.bg-white.p-4.rounded-lg.border button)');
   
   if (continueShoppingButton) {
     continueShoppingButton.addEventListener('click', function() {
@@ -174,62 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Kupon kodu uygulama butonu
+  // Kupon kodu uygulama butonu - Düzeltilmiş, hiçbir aksiyona neden olmayacak
   const applyCouponButton = document.querySelector('.bg-white.p-4.rounded-lg.border button');
   if (applyCouponButton) {
-    applyCouponButton.addEventListener('click', function() {
-      const couponInput = document.querySelector('.bg-white.p-4.rounded-lg.border input');
-      if (couponInput && couponInput.value.trim() !== '') {
-        // Örnek kupon kodları
-        const coupons = {
-          'INDIRIM10': 100,
-          'INDIRIM20': 200,
-          'INDIRIM30': 300,
-          'INDIRIM50': 500
-        };
-        
-        const couponCode = couponInput.value.trim().toUpperCase();
-        if (coupons[couponCode]) {
-          couponDiscount = coupons[couponCode];
-          
-          // Kupon başarı mesajını göster
-          const feedbackSpan = document.createElement('span');
-          feedbackSpan.className = 'text-green-600 text-sm block mt-2';
-          feedbackSpan.textContent = 'Kupon uygulandı!';
-          
-          // Önceki feedback mesajını temizle
-          const previousFeedback = couponInput.parentElement.querySelector('.text-green-600, .text-red-600');
-          if (previousFeedback) previousFeedback.remove();
-          
-          couponInput.parentElement.appendChild(feedbackSpan);
-          
-          // Sepet toplamlarını güncelle
-          const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-          updateCartTotals(cartTotal, cart.length);
-        } else {
-          // Geçersiz kupon mesajını göster
-          const feedbackSpan = document.createElement('span');
-          feedbackSpan.className = 'text-red-600 text-sm block mt-2';
-          feedbackSpan.textContent = 'Geçersiz kupon kodu!';
-          
-          // Önceki feedback mesajını temizle
-          const previousFeedback = couponInput.parentElement.querySelector('.text-green-600, .text-red-600');
-          if (previousFeedback) previousFeedback.remove();
-          
-          couponInput.parentElement.appendChild(feedbackSpan);
-        }
-      } else {
-        // Kupon kodu boş mesajını göster
-        const feedbackSpan = document.createElement('span');
-        feedbackSpan.className = 'text-red-600 text-sm block mt-2';
-        feedbackSpan.textContent = 'Lütfen bir kupon kodu girin!';
-        
-        // Önceki feedback mesajını temizle
-        const previousFeedback = couponInput.parentElement.querySelector('.text-green-600, .text-red-600');
-        if (previousFeedback) previousFeedback.remove();
-        
-        couponInput.parentElement.appendChild(feedbackSpan);
-      }
-    });
   }
 }); 
