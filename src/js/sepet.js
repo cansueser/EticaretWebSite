@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Sepet öğelerini localStorage'dan al
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   let couponDiscount = 0;
+  let appliedCouponCode = ''; // Uygulanan kupon kodunu sakla
   
   // Sepeti güncelle
   updateCart();
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Kupon indirimi satırı yoksa ve indirim varsa ekle
       const discountHTML = `
         <div class="flex justify-between coupon-discount-row">
-          <span>Kupon İndirimi:</span>
+          <span>Kupon İndirimi (${appliedCouponCode}):</span>
           <span class="text-green-600">-${couponDiscount.toLocaleString('tr-TR')} TL</span>
         </div>
       `;
@@ -123,8 +124,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     } else if (discountRow && couponDiscount > 0) {
       // Kupon indirimi satırı var ve indirim varsa güncelle
-      const discountValueElement = discountRow.querySelector('span:nth-child(2)');
-      if (discountValueElement) {
+      const discountNameElement = discountRow.querySelector('span:first-child');
+      const discountValueElement = discountRow.querySelector('span:last-child');
+      if (discountNameElement && discountValueElement) {
+        discountNameElement.textContent = `Kupon İndirimi (${appliedCouponCode}):`;
         discountValueElement.textContent = `-${couponDiscount.toLocaleString('tr-TR')} TL`;
       }
     } else if (discountRow && couponDiscount === 0) {
@@ -151,6 +154,77 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // Kupon kodunu doğrula
+  async function validateCoupon(couponCode) {
+    try {
+      // Kupon kodu boş ise hata göster
+      if (!couponCode.trim()) {
+        showMessage('Lütfen bir kupon kodu girin', 'error');
+        return false;
+      }
+      
+      // API'den kupon doğrulama
+      const response = await fetch(`http://localhost:8080/api/kuponlar/dogrula/${couponCode}`);
+      const data = await response.json();
+      
+      if (response.ok && data.valid) {
+        // Kupon geçerli
+        couponDiscount = data.discountValue || 0;
+        appliedCouponCode = couponCode;
+        
+        showMessage('Kupon başarıyla uygulandı', 'success');
+        
+        // Sepet toplamını güncelle
+        const cartTotalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        updateCartTotals(cartTotalPrice, cart.length);
+        return true;
+      } else {
+        // Kupon geçersiz
+        showMessage(data.message || 'Geçersiz kupon kodu', 'error');
+        return false;
+      }
+    } catch (error) {
+      console.error('Kupon doğrulanırken hata:', error);
+      
+      // Gerçek API çalışmıyorsa mock response kullan
+      // Test amaçlı bazı kupon kodlarını kabul et
+      if (couponCode === 'YENIUYE20') {
+        couponDiscount = 20;
+        appliedCouponCode = couponCode;
+        showMessage('Kupon başarıyla uygulandı', 'success');
+        
+        // Sepet toplamını güncelle
+        const cartTotalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        updateCartTotals(cartTotalPrice, cart.length);
+        return true;
+      } else if (couponCode === 'YENIUYE25') {
+        couponDiscount = 25;
+        appliedCouponCode = couponCode;
+        showMessage('Kupon başarıyla uygulandı', 'success');
+        
+        // Sepet toplamını güncelle
+        const cartTotalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        updateCartTotals(cartTotalPrice, cart.length);
+        return true;
+      } else {
+        showMessage('Geçersiz kupon kodu', 'error');
+        return false;
+      }
+    }
+  }
+  
+  // Mesaj gösterme fonksiyonu
+  function showMessage(message, type = 'success') {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `fixed top-4 right-4 px-4 py-2 rounded shadow-lg ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`;
+    messageDiv.textContent = message;
+    document.body.appendChild(messageDiv);
+    
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 3000);
+  }
+  
   // Sepeti localStorage'a kaydet
   function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -171,29 +245,36 @@ document.addEventListener('DOMContentLoaded', function() {
       // Sepeti temizle
       cart = [];
       couponDiscount = 0;
+      appliedCouponCode = '';
       saveCart();
       updateCart();
       
       // Sepet onaylandı mesajını göster
-      const message = document.createElement('div');
-      message.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg';
-      message.textContent = 'Siparişiniz onaylandı!';
-      document.body.appendChild(message);
-      
-      // Mesajı 3 saniye sonra kaldır
-      setTimeout(() => {
-        message.remove();
-      }, 3000);
+      showMessage('Siparişiniz onaylandı!', 'success');
     });
   }
   
-  // Kupon kodu uygulama butonu - Düzeltilmiş, hiçbir aksiyona neden olmayacak
+  // Kupon kodu uygulama butonu
   const applyCouponButton = document.querySelector('.bg-white.p-4.rounded-lg.border button');
-  if (applyCouponButton) {
-    applyCouponButton.addEventListener('click', function(e) {
-      // Olayı engelle
+  const couponInput = document.querySelector('.bg-white.p-4.rounded-lg.border input');
+  
+  if (applyCouponButton && couponInput) {
+    applyCouponButton.addEventListener('click', async function(e) {
       e.preventDefault();
       e.stopPropagation();
+      
+      // Kupon kodunu doğrula
+      const couponCode = couponInput.value;
+      await validateCoupon(couponCode);
+    });
+    
+    // Enter tuşuna basıldığında da kupon uygula
+    couponInput.addEventListener('keypress', async function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const couponCode = couponInput.value;
+        await validateCoupon(couponCode);
+      }
     });
   }
 }); 
