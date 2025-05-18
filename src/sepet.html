@@ -9,6 +9,7 @@
     .hover\:text-green-button:hover { color: #16a34a; }
     .hover\:bg-green-button:hover { background-color: #15803d; }
   </style>
+  <script src="js/sepet.js" defer></script>
 </head>
 <body class="font-sans">
 <!-- Top Bar -->
@@ -43,127 +44,86 @@
       <thead>
       <tr class="bg-gray-100">
         <th class="p-3 text-left w-2/5 border border-gray-200">Ürünler</th>
-        <th class="p-3 text-left border border-gray-200">Renk & Beden</th>
-        <th class="p-3 text-left border border-gray-200">Adet</th>
-        <th class="p-3 text-left border border-gray-200">Fiyat</th>
-        <th class="p-3 text-left border border-gray-200">Toplam</th>
-        <th class="p-3 text-left border border-gray-200"></th>
+        <th class="p-3 text-center border border-gray-200">Renk & Beden</th>
+        <th class="p-3 text-center border border-gray-200">Adet</th>
+        <th class="p-3 text-center border border-gray-200">Fiyat</th>
+        <th class="p-3 text-center border border-gray-200">Toplam</th>
+        <th class="p-3 text-center border border-gray-200"></th>
       </tr>
       </thead>
       <tbody>
       <tr class="border-b border-gray-200">
         <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-16 h-16 mr-4">
+          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
           <span>Bordo Rengi Topuklu Ayakkabı</span>
         </td>
-        <td class="p-3 border border-gray-200">
+        <td class="p-3 border border-gray-200 text-center">
           <div>Beden: XL</div>
           <div>Renk: Bordo</div>
         </td>
-        <td class="p-3 border border-gray-200">
-          <div class="flex items-center">
+        <td class="p-3 border border-gray-200 text-center">
+          <div class="flex items-center justify-center">
             <button class="px-2 border rounded">-</button>
             <span class="mx-2">1</span>
             <button class="px-2 border rounded">+</button>
           </div>
         </td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
         <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
       </tr>
       <tr class="border-b border-gray-200">
         <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-16 h-16 mr-4">
+          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
           <span>Bordo Rengi Topuklu Ayakkabı</span>
         </td>
-        <td class="p-3 border border-gray-200">
+        <td class="p-3 border border-gray-200 text-center">
           <div>Beden: XL</div>
           <div>Renk: Bordo</div>
         </td>
-        <td class="p-3 border border-gray-200">
-          <div class="flex items-center">
+        <td class="p-3 border border-gray-200 text-center">
+          <div class="flex items-center justify-center">
             <button class="px-2 border rounded">-</button>
             <span class="mx-2">1</span>
             <button class="px-2 border rounded">+</button>
           </div>
         </td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
         <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
       </tr>
       <tr class="border-b border-gray-200">
         <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-16 h-16 mr-4">
+          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
           <span>Bordo Rengi Topuklu Ayakkabı</span>
         </td>
-        <td class="p-3 border border-gray-200">
+        <td class="p-3 border border-gray-200 text-center">
           <div>Beden: XL</div>
           <div>Renk: Bordo</div>
         </td>
-        <td class="p-3 border border-gray-200">
-          <div class="flex items-center">
+        <td class="p-3 border border-gray-200 text-center">
+          <div class="flex items-center justify-center">
             <button class="px-2 border rounded">-</button>
             <span class="mx-2">1</span>
             <button class="px-2 border rounded">+</button>
           </div>
         </td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
-        <td class="p-3 border border-gray-200">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
+        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
         <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
       </tr>
       </tbody>
     </table>
   </div>
-  <!-- Buttons - Sağ alt köşede -->
-  <div class="flex justify-end gap-6 mt-4">
-    <button class="bg-white text-green-600 border border-green-600 px-4 py-3 rounded hover:bg-gray-100 hover:text-green-700 text-sm w-50">
-      ALIŞVERİŞE DEVAM ET
-    </button>
-    <button class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700 text-sm w-50">
-      SEPETİ GÜNCELLE
-    </button>
-  </div>
-  <!-- Kupon ve Hediye Çeki Bölümü -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-10 ">
+
+  <!-- Kupon ve Sepet Hesaplama -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 mt-10">
     <!-- Kupon Kodu -->
     <div class="bg-white p-4 rounded-lg border border-gray-200">
       <h3 class="font-bold text-lg mb-3">KUPON KODU</h3>
       <div class="flex">
         <input type="text" placeholder="Kupon kodunuzu girin" class="flex-1 border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
         <button class="bg-green-600 text-white px-4 py-2 rounded-r hover:bg-green-700">UYGULA</button>
-      </div>
-    </div>
-
-    <!-- Hediye Çeki -->
-    <div class="bg-white p-4 rounded-lg border border-gray-200">
-      <h3 class="font-bold text-lg mb-3">HEDİYE ÇEKİ</h3>
-      <div class="flex">
-        <input type="text" placeholder="Hediye çeki kodunuzu girin" class="flex-1 border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
-        <button class="bg-green-600 text-white px-4 py-2 rounded-r hover:bg-green-700">UYGULA</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Kargo Bilgileri ve Sepet Hesaplama -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <!-- Kargo Bilgileri -->
-    <div class="bg-white p-4 rounded-lg border border-gray-200">
-      <h3 class="font-bold text-lg mb-3">KARGO BİLGİLERİ</h3>
-      <div class="space-y-3">
-        <select class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
-          <option>Ülke Seçin</option>
-          <option>Türkiye</option>
-        </select>
-        <select class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
-          <option>Şehir Seçin</option>
-          <option>Çorum</option>
-          <option>Ankara</option>
-          <option>Bolu</option>
-          <option>Urfa</option>
-          <option>Antep</option>
-        </select>
-        <input type="text" placeholder="Posta Kodu" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
-        <button class="bg-gray-100 text-gray-800 px-4 py-2 rounded hover:bg-gray-200">HESAPLA</button>
       </div>
     </div>
 
@@ -179,10 +139,6 @@
           <span>Kargo:</span>
           <span class="text-green-600">Ücretsiz</span>
         </div>
-        <div class="flex justify-between">
-          <span>Kupon İndirimi:</span>
-          <span class="text-green-600">-250 TL</span>
-        </div>
       </div>
       <div class="border-t pt-3">
         <div class="flex justify-between font-bold text-lg">
@@ -191,6 +147,16 @@
         </div>
       </div>
     </div>
+  </div>
+  
+  <!-- Buttons - Sepet Hesaplaması Altında -->
+  <div class="flex justify-end gap-6 mt-4">
+    <button class="bg-white text-green-600 border border-green-600 px-4 py-3 rounded hover:bg-gray-100 hover:text-green-700 text-sm w-50">
+      ALIŞVERİŞE DEVAM ET
+    </button>
+    <button class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700 text-sm w-50">
+      SEPETİ ONAYLA
+    </button>
   </div>
 
   <div class="min-w-full h-1 bg-gray-200 my-10"></div>

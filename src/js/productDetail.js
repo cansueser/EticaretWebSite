@@ -80,6 +80,9 @@ function displayProductDetail(product) {
   // Setup quantity buttons
   setupQuantityButtons();
   
+  // Setup add to cart button
+  setupAddToCartButton(product);
+  
   // Update product description in the detailed section with more detailed content
   updateDetailedDescription(product);
 }
@@ -149,6 +152,59 @@ function setupQuantityButtons() {
   increaseBtn.addEventListener('click', () => {
     quantity++;
     quantitySpan.textContent = quantity;
+  });
+}
+
+// Setup add to cart button functionality
+function setupAddToCartButton(product) {
+  let addToCartBtn = document.querySelector('.add-to-cart-btn');
+  
+  if (!addToCartBtn) {
+    // Buton bulunamadıysa, sepete ekle butonu oluştur
+    const buttonsContainer = document.querySelector('.buttons-container');
+    if (buttonsContainer) {
+      const newBtn = document.createElement('button');
+      newBtn.className = 'add-to-cart-btn bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700';
+      newBtn.textContent = 'Sepete Ekle';
+      buttonsContainer.appendChild(newBtn);
+      addToCartBtn = newBtn;
+    } else {
+      return; // Buton eklenecek konteyner bulunamadı
+    }
+  }
+  
+  addToCartBtn.addEventListener('click', () => {
+    // Mevcut sepeti localStorage'dan al
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Ürün miktarını al
+    const quantitySpan = document.querySelector('.flex.items-center.border.rounded-md span');
+    const quantity = quantitySpan ? parseInt(quantitySpan.textContent) : 1;
+    
+    // Sepette aynı ürün var mı kontrol et
+    const existingProductIndex = cart.findIndex(item => item.id === product.id);
+    
+    if (existingProductIndex >= 0) {
+      // Ürün zaten sepette, miktarı artır
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      // Ürünü sepete ekle
+      cart.push({
+        id: product.id,
+        name: product.name,
+        price: product.price || 0,
+        imageUrl: product.imageUrl || '/img/shoe.png',
+        size: product.size || '',
+        color: product.color || '',
+        quantity: quantity
+      });
+    }
+    
+    // Sepeti localStorage'a kaydet
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Kullanıcıya bildirim göster
+    alert('Ürün sepete eklendi!');
   });
 }
 

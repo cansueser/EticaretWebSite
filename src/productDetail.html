@@ -65,7 +65,7 @@
 
   <!-- MENU RİGHT -->
   <div class="mr-4 flex items-center gap-4">
-    <i class="fas fa-shopping-cart w-6 h-6 hover:cursor-pointer hover:text-green-600"></i>
+    <a href="./sepet.html"><i class="fas fa-shopping-cart w-6 h-6 hover:cursor-pointer hover:text-green-600"></i></a>
     <i class="fas fa-search w-5 h-5 hover:cursor-pointer hover:text-green-600"></i>
     <i class="fas fa-bars w-5 h-5 hover:cursor-pointer hover:text-green-600"></i>
   </div>
@@ -132,10 +132,13 @@
         </div>
       </div>
 
-      <!-- Sepet Butonu -->
-      <button class="mt-8 w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors">
-        <i class="fas fa-shopping-cart mr-2"></i> SEPETE EKLE
-      </button>
+      <!-- Butonlar için konteyner -->
+      <div class="buttons-container">
+        <!-- Sepet Butonu -->
+        <button class="mt-8 w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors add-to-cart-btn">
+          <i class="fas fa-shopping-cart mr-2"></i> SEPETE EKLE
+        </button>
+      </div>
 
       <!-- Kargo Bilgisi -->
       <div class="mt-6 pt-4 border-t">
