@@ -203,8 +203,19 @@ function setupAddToCartButton(product) {
     // Sepeti localStorage'a kaydet
     localStorage.setItem('cart', JSON.stringify(cart));
     
-    // Kullanıcıya bildirim göster
-    alert('Ürün sepete eklendi!');
+    // Butona görsel geri bildirim ekle
+    const originalText = addToCartBtn.textContent;
+    const originalClass = addToCartBtn.className;
+    
+    // Butonun görünümünü değiştir
+    addToCartBtn.textContent = '✓ Ürün Sepete Eklendi';
+    addToCartBtn.className = 'add-to-cart-btn bg-green-700 text-white py-2 px-4 rounded';
+    
+    // 2 saniye sonra butonu eski haline getir
+    setTimeout(() => {
+      addToCartBtn.textContent = originalText;
+      addToCartBtn.className = originalClass;
+    }, 2000);
   });
 }
 

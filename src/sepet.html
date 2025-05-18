@@ -39,78 +39,21 @@
 <div class="container mx-auto px-4 py-8 max-w-6xl">
   <h1 class="text-2xl font-bold mb-6">Alışveriş Sepeti</h1>
 
-  <div class="overflow-x-auto mb-4">
-    <table class="w-full text-sm min-h-[300px] border-collapse border border-gray-200">
+  <div class="overflow-x-auto mb-4 w-full">
+    <table class="w-full text-base border-collapse border border-gray-200">
       <thead>
       <tr class="bg-gray-100">
-        <th class="p-3 text-left w-2/5 border border-gray-200">Ürünler</th>
-        <th class="p-3 text-center border border-gray-200">Renk & Beden</th>
-        <th class="p-3 text-center border border-gray-200">Adet</th>
-        <th class="p-3 text-center border border-gray-200">Fiyat</th>
-        <th class="p-3 text-center border border-gray-200">Toplam</th>
-        <th class="p-3 text-center border border-gray-200"></th>
+        <th class="px-3 py-4 text-left w-2/5 border border-gray-200">Ürünler</th>
+        <th class="px-3 py-4 text-center border border-gray-200">Renk & Beden</th>
+        <th class="px-3 py-4 text-center border border-gray-200">Adet</th>
+        <th class="px-3 py-4 text-center border border-gray-200">Fiyat</th>
+        <th class="px-3 py-4 text-center border border-gray-200">Toplam</th>
+        <th class="px-3 py-4 text-center border border-gray-200"></th>
       </tr>
       </thead>
       <tbody>
-      <tr class="border-b border-gray-200">
-        <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
-          <span>Bordo Rengi Topuklu Ayakkabı</span>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div>Beden: XL</div>
-          <div>Renk: Bordo</div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div class="flex items-center justify-center">
-            <button class="px-2 border rounded">-</button>
-            <span class="mx-2">1</span>
-            <button class="px-2 border rounded">+</button>
-          </div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
-      </tr>
-      <tr class="border-b border-gray-200">
-        <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
-          <span>Bordo Rengi Topuklu Ayakkabı</span>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div>Beden: XL</div>
-          <div>Renk: Bordo</div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div class="flex items-center justify-center">
-            <button class="px-2 border rounded">-</button>
-            <span class="mx-2">1</span>
-            <button class="px-2 border rounded">+</button>
-          </div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
-      </tr>
-      <tr class="border-b border-gray-200">
-        <td class="p-3 flex items-center border-l border-gray-200">
-          <img src="/img/shoe.png" alt="Ayakkabı" class="w-12 h-12 mr-4">
-          <span>Bordo Rengi Topuklu Ayakkabı</span>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div>Beden: XL</div>
-          <div>Renk: Bordo</div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">
-          <div class="flex items-center justify-center">
-            <button class="px-2 border rounded">-</button>
-            <span class="mx-2">1</span>
-            <button class="px-2 border rounded">+</button>
-          </div>
-        </td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 border border-gray-200 text-center">1.250 TL</td>
-        <td class="p-3 text-red-500 cursor-pointer text-center border border-gray-200">✕</td>
+      <tr>
+        <td colspan="6" class="p-5 text-center text-base">Sepetinizde ürün bulunmamaktadır.</td>
       </tr>
       </tbody>
     </table>
@@ -122,15 +65,15 @@
     <div class="bg-white p-4 rounded-lg border border-gray-200">
       <h3 class="font-bold text-lg mb-3">KUPON KODU</h3>
       <div class="flex">
-        <input type="text" placeholder="Kupon kodunuzu girin" class="flex-1 border border-gray-300 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-green-500">
-        <button class="bg-green-600 text-white px-4 py-2 rounded-r hover:bg-green-700">UYGULA</button>
+        <input type="text" placeholder="Kupon kodunuzu girin" class="flex-1 border border-gray-300 rounded-l px-4 py-3 text-base focus:outline-none focus:ring-1 focus:ring-green-500">
+        <button class="bg-green-600 text-white px-4 py-3 rounded-r hover:bg-green-700 text-base">UYGULA</button>
       </div>
     </div>
 
     <!-- Sepet Hesaplama -->
     <div class="bg-white p-4 rounded-lg border border-gray-200">
       <h3 class="font-bold text-lg mb-3">SEPET HESAPLAMASI</h3>
-      <div class="space-y-2 mb-3">
+      <div class="space-y-3 mb-3 text-base">
         <div class="flex justify-between">
           <span>Ara Toplam:</span>
           <span>3.750 TL</span>
@@ -151,10 +94,10 @@
   
   <!-- Buttons - Sepet Hesaplaması Altında -->
   <div class="flex justify-end gap-6 mt-4">
-    <button class="bg-white text-green-600 border border-green-600 px-4 py-3 rounded hover:bg-gray-100 hover:text-green-700 text-sm w-50">
+    <button class="bg-white text-green-600 border border-green-600 px-5 py-4 rounded hover:bg-gray-100 hover:text-green-700 text-base w-60">
       ALIŞVERİŞE DEVAM ET
     </button>
-    <button class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700 text-sm w-50">
+    <button class="bg-green-600 text-white px-5 py-4 rounded hover:bg-green-700 text-base w-60">
       SEPETİ ONAYLA
     </button>
   </div>
