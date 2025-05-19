@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Kart bilgileri formatlama
   setupCardFormatting();
   
+  // Telefon numarası formatlama
+  setupPhoneFormatting();
+  
   // Ödeme yap butonuna tıklama olayı
   const paymentButton = document.querySelector('button.w-full.bg-green-600');
   if (paymentButton) {
@@ -276,6 +279,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+  
+  // Telefon numarası formatlama
+  function setupPhoneFormatting() {
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function(e) {
+        // Sadece rakamları al
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // 11 karakterden uzunsa kısalt (Türkiye telefon numaraları için)
+        if (value.length > 11) {
+          value = value.slice(0, 11);
+        }
+        
+        e.target.value = value;
+      });
+    }
   }
   
   // Kart formatlama ayarları
