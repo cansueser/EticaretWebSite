@@ -462,6 +462,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="font-bold text-lg mt-1">${orderCode}</p>
           </div>
           <p class="mt-3 text-sm text-gray-500">Siparişinizle ilgili bilgileri e-posta adresinize gönderdik.</p>
+          <a href="index.html" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition duration-200">ALIŞVERİŞE DEVAM ET</a>
         </div>
       `;
     }
