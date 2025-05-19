@@ -47,10 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
     updateOrderSummary(totalPrice, couponDiscount);
   }
   
+  // Kart bilgileri formatlama
+  setupCardFormatting();
+  
   // Ödeme yap butonuna tıklama olayı
   const paymentButton = document.querySelector('button.w-full.bg-green-600');
   if (paymentButton) {
     paymentButton.addEventListener('click', function() {
+      // Form validasyonu
+      if (!validateCardForm()) {
+        return;
+      }
+      
       // Sepeti temizle
       localStorage.removeItem('cart');
       localStorage.removeItem('couponDiscount');
@@ -64,6 +72,105 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
       }, 2000);
     });
+  }
+  
+  // Kart formatlama ayarları
+  function setupCardFormatting() {
+    // Kart numarası formatlama
+    const cardNumberInput = document.getElementById('card-number');
+    if (cardNumberInput) {
+      cardNumberInput.addEventListener('input', function(e) {
+        // Sadece rakamları al
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // 16 karakterden uzunsa kısalt
+        if (value.length > 16) {
+          value = value.slice(0, 16);
+        }
+        
+        // Her 4 rakamda bir boşluk ekle
+        let formattedValue = '';
+        for (let i = 0; i < value.length; i++) {
+          if (i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+          }
+          formattedValue += value[i];
+        }
+        
+        e.target.value = formattedValue;
+      });
+    }
+    
+    // Son kullanma tarihi formatlama (AA/YY)
+    const expiryDateInput = document.getElementById('expiry-date');
+    if (expiryDateInput) {
+      expiryDateInput.addEventListener('input', function(e) {
+        // Sadece rakamları al
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // 4 karakterden uzunsa kısalt
+        if (value.length > 4) {
+          value = value.slice(0, 4);
+        }
+        
+        // AA/YY formatı
+        if (value.length > 2) {
+          value = value.slice(0, 2) + '/' + value.slice(2);
+        }
+        
+        e.target.value = value;
+      });
+    }
+    
+    // CVV - sadece 3 rakam
+    const cvvInput = document.getElementById('cvv');
+    if (cvvInput) {
+      cvvInput.addEventListener('input', function(e) {
+        // Sadece rakamları al
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // 3 karakterden uzunsa kısalt
+        if (value.length > 3) {
+          value = value.slice(0, 3);
+        }
+        
+        e.target.value = value;
+      });
+    }
+  }
+  
+  // Kart bilgileri validasyonu
+  function validateCardForm() {
+    const cardName = document.getElementById('card-name');
+    const cardNumber = document.getElementById('card-number');
+    const expiryDate = document.getElementById('expiry-date');
+    const cvv = document.getElementById('cvv');
+    
+    // Kart sahibi adı kontrolü
+    if (!cardName || !cardName.value.trim()) {
+      showMessage('Lütfen kart sahibinin adını giriniz', 'error');
+      return false;
+    }
+    
+    // Kart numarası kontrolü (boşluklar olmadan 16 rakam)
+    if (!cardNumber || cardNumber.value.replace(/\s/g, '').length !== 16) {
+      showMessage('Lütfen geçerli bir kart numarası giriniz', 'error');
+      return false;
+    }
+    
+    // Son kullanma tarihi kontrolü (AA/YY formatında)
+    if (!expiryDate || !expiryDate.value.match(/^(0[1-9]|1[0-2])\/[0-9]{2}$/)) {
+      showMessage('Lütfen geçerli bir son kullanma tarihi giriniz (AA/YY)', 'error');
+      return false;
+    }
+    
+    // CVV kontrolü (3 rakam)
+    if (!cvv || !cvv.value.match(/^[0-9]{3}$/)) {
+      showMessage('Lütfen geçerli bir CVV numarası giriniz', 'error');
+      return false;
+    }
+    
+    return true;
   }
   
   // Sipariş özeti toplamlarını güncelle
