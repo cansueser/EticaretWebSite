@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 5. Formu temizle
         clearForms();
         
-        // 6. Sipariş özeti bölümünü güncelle - boş sipariş
-        updateOrderSummaryAfterPayment();
+        // 6. Sipariş özeti bölümünü güncelle - sipariş kodu ile birlikte
+        updateOrderSummaryAfterPayment(order);
       } catch (error) {
         console.error('Ödeme işlemi sırasında hata:', error);
         
@@ -443,12 +443,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Ödeme sonrası sipariş özetini güncelle
-  function updateOrderSummaryAfterPayment() {
+  function updateOrderSummaryAfterPayment(order) {
     if (productContainer) {
+      // Sipariş kodu oluştur (ya API'den gelen ya da rastgele)
+      const orderCode = order.orderCode || 'ORD-' + Math.floor(Math.random() * 100000);
+      
+      // Sipariş onay bilgisi oluştur
       productContainer.innerHTML = `
-        <div class="flex justify-between text-gray-600">
-          <span>Siparişiniz tamamlandı.</span>
-          <span>0 TL</span>
+        <div class="py-4 text-center">
+          <div class="mb-3">
+            <svg class="mx-auto h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-gray-900">Siparişiniz başarıyla oluşturuldu!</h3>
+          <div class="mt-2 text-gray-600">
+            <p>Sipariş kodunuz:</p>
+            <p class="font-bold text-lg mt-1">${orderCode}</p>
+          </div>
+          <p class="mt-3 text-sm text-gray-500">Siparişinizle ilgili bilgileri e-posta adresinize gönderdik.</p>
         </div>
       `;
     }
@@ -459,10 +472,16 @@ document.addEventListener('DOMContentLoaded', function() {
       discountRow.remove();
     }
     
-    // Toplam tutarı sıfırla
+    // Toplam tutarı sıfırla ve sipariş özeti başlığını değiştir
     const totalElement = document.querySelector('.lg\\:w-1\\/3 .flex.justify-between.text-lg.font-bold span:last-child');
     if (totalElement) {
       totalElement.textContent = '0 TL';
+    }
+    
+    // Ödeme özeti başlığını değiştir
+    const orderSummaryTitle = document.querySelector('.lg\\:w-1\\/3 h2');
+    if (orderSummaryTitle) {
+      orderSummaryTitle.textContent = 'SİPARİŞ ONAYI';
     }
   }
   
