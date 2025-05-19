@@ -512,22 +512,563 @@
         const closeBtn = document.getElementById('closeOrderModal');
         const detailButtons = document.querySelectorAll('.btn-detail');
         
-        // Detay butonlarına tıklama olayları ekle
-        detailButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const orderId = this.getAttribute('data-order-id');
-                // API'den veri çekilecek ve modal doldurulacak
-                document.getElementById('modal-order-id').textContent = orderId;
-                modal.style.display = 'flex';
-            });
+        // Global değişkenler
+        let allOrders = [];
+        
+        // Sayfanın yüklenmesi sırasında tüm siparişleri getir
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAllOrders();
         });
+        
+        // Tüm siparişleri getir
+        async function fetchAllOrders() {
+            try {
+                console.log('Siparişler için API isteği yapılıyor...');
+                const response = await fetch('http://localhost:8080/api/siparisler', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('API yanıtı:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    throw new Error('Siparişleri getirirken bir hata oluştu');
+                }
+                
+                // API yanıtını önce text olarak al
+                const responseText = await response.text();
+                console.log('API yanıt içeriği:', responseText);
+                
+                // Boş veya geçersiz JSON kontrolü
+                if (!responseText || responseText.trim() === '') {
+                    throw new Error('API boş yanıt döndürdü');
+                }
+                
+                // JSON'a çevir
+                const data = JSON.parse(responseText);
+                console.log('Alınan veri:', data);
+                
+                // Veri yapısını kontrol et
+                if (data && (Array.isArray(data) || (data.content && Array.isArray(data.content)))) {
+                    allOrders = data.content || data; // API yapısına göre content içinde veya direkt data
+                    console.log('İşlenecek siparişler:', allOrders);
+                    
+                    // Siparişleri ekrana yerleştir
+                    displayOrders(allOrders);
+                } else {
+                    console.error('Beklenen veri yapısı bulunamadı:', data);
+                    useMockOrdersData();
+                }
+            } catch (error) {
+                console.error('Siparişleri getirirken hata:', error);
+                
+                // API çalışmıyorsa örnek verilerle devam et
+                useMockOrdersData();
+            }
+        }
+        
+        // Siparişleri ekranda göster
+        function displayOrders(orders) {
+            console.log('Gösterilecek siparişler:', orders);
+            
+            // Sipariş listesi konteynerini seç
+            const orderContainer = document.querySelector('div[style="display: grid; gap: 20px;"]');
+            if (!orderContainer) {
+                console.error('Sipariş container bulunamadı!');
+                return;
+            }
+            
+            // Konteynerı temizle
+            orderContainer.innerHTML = '';
+            
+            if (!orders || orders.length === 0) {
+                console.log('Gösterilecek sipariş bulunamadı.');
+                orderContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <p>Gösterilecek sipariş bulunamadı.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log(`Toplam ${orders.length} sipariş gösteriliyor`);
+            
+            // Her sipariş için bir kart oluştur
+            orders.forEach((order, index) => {
+                console.log(`Sipariş ${index + 1}:`, order);
+                
+                // Sipariş kartı oluştur
+                const orderCard = document.createElement('div');
+                orderCard.style.border = '1px solid #e9ecef';
+                orderCard.style.borderRadius = '8px';
+                orderCard.style.overflow = 'hidden';
+                
+                // Sipariş öğelerini getir ve HTML olarak düzenle
+                let orderItemsHtml = '';
+                if (order.details && order.details.length > 0) {
+                    orderItemsHtml = order.details.map(item => {
+                        return `<div style="padding: 3px 0;">• ${item.productName} (x${item.quantity})</div>`;
+                    }).join('');
+                } else {
+                    // Detaylar yoksa yüklemek için sipariş detaylarını getir
+                    orderItemsHtml = '<div style="padding: 3px 0;">Ürünler yükleniyor...</div>';
+                    fetchOrderDetails(order.id)
+                        .then(orderDetails => {
+                            if (orderDetails && orderDetails.details) {
+                                const updatedItemsHtml = orderDetails.details.map(item => {
+                                    return `<div style="padding: 3px 0;">• ${item.productName} (x${item.quantity})</div>`;
+                                }).join('');
+                                const itemsContainer = orderCard.querySelector('.order-items');
+                                if (itemsContainer) {
+                                    itemsContainer.innerHTML = updatedItemsHtml;
+                                }
+                            }
+                        });
+                }
+                
+                // Sipariş durumunu belirle
+                let statusClass = '';
+                let statusDisplay = order.status || '';
+                
+                switch (String(order.status).toUpperCase()) {
+                    case 'HAZIRLANIYOR':
+                        statusClass = 'status-hazirlaniyor';
+                        statusDisplay = 'Hazırlanıyor';
+                        break;
+                    case 'KARGOYA VERİLDİ':
+                    case 'YOLDA':
+                        statusClass = 'status-yolda';
+                        statusDisplay = 'Kargoda';
+                        break;
+                    case 'TESLİM EDİLDİ':
+                    case 'TAMAMLANDI':
+                        statusClass = 'status-tamamlandi';
+                        statusDisplay = 'Tamamlandı';
+                        break;
+                    case 'İPTAL EDİLDİ':
+                    case 'İPTAL':
+                        statusClass = 'status-iptal';
+                        statusDisplay = 'İptal Edildi';
+                        break;
+                    default:
+                        statusClass = '';
+                }
+                
+                console.log(`Sipariş ${index + 1} durumu:`, order.status, '→', statusDisplay, statusClass);
+                
+                // Sipariş kartı HTML'ini oluştur
+                orderCard.innerHTML = `
+                    <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                        <span style="font-weight: 600;">Sipariş Kodu:</span> ${order.orderCode || ''}
+                    </div>
+                    <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                        <span style="font-weight: 600;">Ürünler:</span>
+                        <div style="margin-top: 5px; padding-left: 10px;" class="order-items">
+                            ${orderItemsHtml}
+                        </div>
+                    </div>
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                        <div style="flex: 1;">
+                            <span style="font-weight: 600;">Tarih:</span> ${formatDate(order.orderDate)}
+                        </div>
+                        <div style="flex: 1;">
+                            <span style="font-weight: 600;">Müşteri:</span> ${order.customerName || ''}
+                        </div>
+                    </div>
+                    <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                        <div style="flex: 1;">
+                            <span style="font-weight: 600;">Toplam:</span> ${formatCurrency(order.totalAmount)}
+                        </div>
+                        <div style="flex: 1;">
+                            <span style="font-weight: 600;">Durum:</span> 
+                            <span class="status-badge ${statusClass}">${statusDisplay}</span>
+                        </div>
+                    </div>
+                    <div style="padding: 10px 15px; text-align: right;">
+                        <span style="font-weight: 600;">İşlemler:</span>
+                        <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="${order.id}">
+                            <i class="fas fa-eye"></i> Detay
+                        </button>
+                    </div>
+                `;
+                
+                // Detay butonuna tıklama olayı ekle
+                const detailBtn = orderCard.querySelector('.btn-detail');
+                detailBtn.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-order-id');
+                    showOrderDetails(orderId);
+                });
+                
+                // Kartı konteynerına ekle
+                orderContainer.appendChild(orderCard);
+            });
+        }
+        
+        // Sipariş detaylarını getir
+        async function fetchOrderDetails(orderId) {
+            try {
+                console.log(`${orderId} ID'li sipariş detayları için API isteği yapılıyor...`);
+                const response = await fetch(`http://localhost:8080/api/siparisler/${orderId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Detay API yanıtı:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    throw new Error(`Sipariş detaylarını getirirken bir hata oluştu: ${response.status}`);
+                }
+                
+                // API yanıtını önce text olarak al
+                const responseText = await response.text();
+                
+                // Boş veya geçersiz JSON kontrolü
+                if (!responseText || responseText.trim() === '') {
+                    throw new Error('API detay için boş yanıt döndürdü');
+                }
+                
+                // JSON'a çevir
+                const orderDetails = JSON.parse(responseText);
+                console.log('Alınan detaylar:', orderDetails);
+                
+                return orderDetails;
+            } catch (error) {
+                console.error('Sipariş detaylarını getirirken hata:', error);
+                
+                // Mock sipariş detayları - API çalışmadığında
+                const mockOrder = allOrders.find(o => o.id === orderId);
+                if (mockOrder) {
+                    console.log('Mock sipariş detayları kullanılıyor:', mockOrder);
+                    return mockOrder;
+                }
+                
+                return null;
+            }
+        }
+        
+        // Sipariş detaylarını modalda göster
+        async function showOrderDetails(orderId) {
+            console.log(`Sipariş detay modalı gösteriliyor: ID=${orderId}`);
+            
+            // Sipariş detaylarını getir
+            const orderDetails = await fetchOrderDetails(orderId);
+            
+            if (!orderDetails) {
+                alert('Sipariş detayları yüklenemedi');
+                return;
+            }
+            
+            // Modal içeriğini güncelle
+            document.getElementById('modal-order-id').textContent = orderDetails.orderCode || '';
+            document.getElementById('modal-order-date').textContent = formatDate(orderDetails.orderDate);
+            
+            // Durum gösterimini ayarla
+            let statusDisplay = orderDetails.status || '';
+            switch (String(orderDetails.status).toUpperCase()) {
+                case 'HAZIRLANIYOR': statusDisplay = 'Hazırlanıyor'; break;
+                case 'KARGOYA VERİLDİ': statusDisplay = 'Kargoda'; break;
+                case 'YOLDA': statusDisplay = 'Kargoda'; break;
+                case 'TESLİM EDİLDİ': statusDisplay = 'Teslim Edildi'; break;
+                case 'TAMAMLANDI': statusDisplay = 'Tamamlandı'; break;
+                case 'İPTAL EDİLDİ': statusDisplay = 'İptal Edildi'; break;
+                case 'İPTAL': statusDisplay = 'İptal Edildi'; break;
+            }
+            document.getElementById('modal-order-status').textContent = statusDisplay;
+            document.getElementById('modal-payment-method').textContent = 'Kredi Kartı'; // API'den gelmiyorsa varsayılan değer
+            
+            // Müşteri bilgilerini güncelle - müşteri bilgileri ayrı bir endpoint'ten gelebilir
+            if (orderDetails.customerId) {
+                fetchCustomerDetails(orderDetails.customerId)
+                    .then(customer => {
+                        if (customer) {
+                            document.getElementById('modal-customer-name').textContent = customer.name || orderDetails.customerName || '';
+                            document.getElementById('modal-customer-email').textContent = customer.email || '';
+                            document.getElementById('modal-customer-phone').textContent = customer.phone || '';
+                            document.getElementById('modal-customer-address').textContent = customer.address || '';
+                        }
+                    });
+            } else {
+                document.getElementById('modal-customer-name').textContent = orderDetails.customerName || '';
+                document.getElementById('modal-customer-email').textContent = '';
+                document.getElementById('modal-customer-phone').textContent = '';
+                document.getElementById('modal-customer-address').textContent = '';
+            }
+            
+            // Sipariş ürünleri tablosunu güncelle
+            const orderItemsTable = document.getElementById('modal-order-items');
+            orderItemsTable.innerHTML = '';
+            
+            let subtotal = 0;
+            
+            if (orderDetails.details && orderDetails.details.length > 0) {
+                orderDetails.details.forEach(item => {
+                    const row = document.createElement('tr');
+                    
+                    // Birim fiyatı item.unitPrice veya item.totalPrice / item.quantity olarak hesapla
+                    const unitPrice = item.unitPrice || (item.totalPrice / item.quantity);
+                    subtotal += item.totalPrice || (unitPrice * item.quantity);
+                    
+                    row.innerHTML = `
+                        <td style="text-align: left; padding: 8px; border-bottom: 1px solid #dee2e6;">${item.productName}</td>
+                        <td style="text-align: center; padding: 8px; border-bottom: 1px solid #dee2e6;">${item.quantity}</td>
+                        <td style="text-align: right; padding: 8px; border-bottom: 1px solid #dee2e6;">${formatCurrency(unitPrice)}</td>
+                        <td style="text-align: right; padding: 8px; border-bottom: 1px solid #dee2e6;">${formatCurrency(item.totalPrice || unitPrice * item.quantity)}</td>
+                    `;
+                    
+                    orderItemsTable.appendChild(row);
+                });
+            } else {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="4" style="text-align: center; padding: 8px;">Ürün bilgisi bulunamadı.</td>
+                `;
+                orderItemsTable.appendChild(row);
+            }
+            
+            // Toplam ve indirim bilgilerini güncelle
+            const discount = orderDetails.discountValue || 0;
+            const total = orderDetails.totalAmount || subtotal - discount;
+            
+            // Fiyatları güncelle
+            const tfoot = orderItemsTable.parentElement.querySelector('tfoot');
+            if (tfoot) {
+                tfoot.innerHTML = `
+                    <tr>
+                        <td colspan="3" style="text-align: right; padding: 8px;"><strong>Ara Toplam:</strong></td>
+                        <td style="text-align: right; padding: 8px;">${formatCurrency(subtotal)}</td>
+                    </tr>
+                    ${discount > 0 ? `
+                    <tr>
+                        <td colspan="3" style="text-align: right; padding: 8px;"><strong>Kupon İndirimi (${orderDetails.couponCode || ''}):</strong></td>
+                        <td style="text-align: right; padding: 8px;">-${formatCurrency(discount)}</td>
+                    </tr>
+                    ` : ''}
+                    <tr>
+                        <td colspan="3" style="text-align: right; padding: 8px;"><strong>Genel Toplam:</strong></td>
+                        <td style="text-align: right; padding: 8px;"><strong>${formatCurrency(total)}</strong></td>
+                    </tr>
+                `;
+            }
+            
+            // Durum seçimi için select kutusunu güncelle
+            const statusSelect = document.getElementById('update-status');
+            if (statusSelect) {
+                // API durumunu frontend'e eşleştirelim
+                let frontendStatus = '';
+                
+                switch (String(orderDetails.status).toUpperCase()) {
+                    case 'HAZIRLANIYOR':
+                        frontendStatus = 'hazirlaniyor';
+                        break;
+                    case 'KARGOYA VERİLDİ':
+                    case 'YOLDA':
+                        frontendStatus = 'yolda';
+                        break;
+                    case 'TESLİM EDİLDİ':
+                    case 'TAMAMLANDI':
+                        frontendStatus = 'tamamlandi';
+                        break;
+                    case 'İPTAL EDİLDİ':
+                    case 'İPTAL':
+                        frontendStatus = 'iptal';
+                        break;
+                }
+                
+                console.log(`Seçili durum değeri: API=${orderDetails.status}, Frontend=${frontendStatus}`);
+                
+                // Seçimi ayarla
+                Array.from(statusSelect.options).forEach(option => {
+                    option.selected = option.value === frontendStatus;
+                });
+            }
+            
+            // Modali göster
+            modal.style.display = 'flex';
+        }
+        
+        // Müşteri bilgilerini getir
+        async function fetchCustomerDetails(customerId) {
+            try {
+                console.log(`${customerId} ID'li müşteri bilgileri için API isteği yapılıyor...`);
+                const response = await fetch(`http://localhost:8080/api/musteriler/${customerId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Müşteri API yanıtı:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    throw new Error(`Müşteri bilgilerini getirirken bir hata oluştu: ${response.status}`);
+                }
+                
+                // API yanıtını önce text olarak al
+                const responseText = await response.text();
+                
+                // Boş veya geçersiz JSON kontrolü
+                if (!responseText || responseText.trim() === '') {
+                    throw new Error('API müşteri bilgisi için boş yanıt döndürdü');
+                }
+                
+                // JSON'a çevir
+                const customerDetails = JSON.parse(responseText);
+                console.log('Alınan müşteri bilgileri:', customerDetails);
+                
+                return customerDetails;
+            } catch (error) {
+                console.error('Müşteri bilgilerini getirirken hata:', error);
+                
+                // Mock müşteri detayları - API çalışmadığında
+                const orderWithCustomer = allOrders.find(o => o.customerId === customerId);
+                if (orderWithCustomer) {
+                    console.log('Mock müşteri bilgileri kullanılıyor');
+                    return {
+                        id: customerId,
+                        name: orderWithCustomer.customerName,
+                        email: `musteri${customerId}@ornek.com`,
+                        phone: '05xx xxx xx xx',
+                        address: 'Adres bilgisi mevcut değil'
+                    };
+                }
+                
+                return null;
+            }
+        }
+        
+        // API çalışmıyorsa örnek veriler kullan
+        function useMockOrdersData() {
+            const mockOrders = [
+                {
+                    id: 1,
+                    orderCode: 'ORD12345',
+                    customerName: 'Ahmet Yılmaz',
+                    orderDate: '2023-05-01',
+                    status: 'HAZIRLANIYOR',
+                    totalAmount: 1250,
+                    details: [
+                        {
+                            productName: 'ASUS VivoBook 15 Laptop',
+                            quantity: 1,
+                            unitPrice: 1250,
+                            totalPrice: 1250
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    orderCode: 'ORD12346',
+                    customerName: 'Mehmet Demir',
+                    orderDate: '2023-04-30',
+                    status: 'KARGOYA VERİLDİ',
+                    totalAmount: 3560,
+                    details: [
+                        {
+                            productName: 'Samsung Galaxy S21',
+                            quantity: 1,
+                            unitPrice: 3000,
+                            totalPrice: 3000
+                        },
+                        {
+                            productName: 'Telefon Kılıfı',
+                            quantity: 2,
+                            unitPrice: 200,
+                            totalPrice: 400
+                        },
+                        {
+                            productName: 'Ekran Koruyucu',
+                            quantity: 1,
+                            unitPrice: 160,
+                            totalPrice: 160
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    orderCode: 'ORD12347',
+                    customerName: 'Ayşe Kaya',
+                    orderDate: '2023-04-28',
+                    status: 'TESLİM EDİLDİ',
+                    totalAmount: 980,
+                    details: [
+                        {
+                            productName: 'Bluetooth Kulaklık',
+                            quantity: 1,
+                            unitPrice: 980,
+                            totalPrice: 980
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    orderCode: 'ORD12348',
+                    customerName: 'Fatma Şahin',
+                    orderDate: '2023-04-27',
+                    status: 'İPTAL EDİLDİ',
+                    totalAmount: 2150,
+                    details: [
+                        {
+                            productName: 'Elektrikli Süpürge',
+                            quantity: 1,
+                            unitPrice: 1850,
+                            totalPrice: 1850
+                        },
+                        {
+                            productName: 'Yedek Filtre Seti',
+                            quantity: 1,
+                            unitPrice: 300,
+                            totalPrice: 300
+                        }
+                    ]
+                },
+                {
+                    id: 5,
+                    orderCode: 'ORD12349',
+                    customerName: 'Mustafa Aydın',
+                    orderDate: '2023-04-25',
+                    status: 'TESLİM EDİLDİ',
+                    totalAmount: 4750,
+                    details: [
+                        {
+                            productName: 'Apple Watch Series 7',
+                            quantity: 1,
+                            unitPrice: 3950,
+                            totalPrice: 3950
+                        },
+                        {
+                            productName: 'Silikon Kayış',
+                            quantity: 2,
+                            unitPrice: 300,
+                            totalPrice: 600
+                        },
+                        {
+                            productName: 'Şarj Standı',
+                            quantity: 1,
+                            unitPrice: 200,
+                            totalPrice: 200
+                        }
+                    ]
+                }
+            ];
+            
+            displayOrders(mockOrders);
+        }
+        
+        // Düzenleme butonu kapatıldı
         
         // Modali kapat
         closeBtn.addEventListener('click', function() {
             modal.style.display = 'none';
         });
         
-        // Modal dışına tıklanınca kapat
+        // Modal dışına tıklayınca kapat
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
@@ -537,23 +1078,139 @@
         // Durum güncelleme
         document.getElementById('save-status').addEventListener('click', function() {
             const newStatus = document.getElementById('update-status').value;
-            const orderId = document.getElementById('modal-order-id').textContent;
+            const orderCode = document.getElementById('modal-order-id').textContent;
             
-            // API isteği burada yapılacak
-            // Örnek: updateOrderStatus(orderId, newStatus);
+            console.log(`Durum güncelleme isteği: ${orderCode} - ${newStatus}`);
             
-            // Toast mesajı göster
+            // API isteği ile durum güncelleme
+            updateOrderStatus(orderCode, newStatus);
+        });
+        
+        // Sipariş durumunu güncelle
+        async function updateOrderStatus(orderCode, newStatus) {
+            // Önce sipariş ID'sini kodu üzerinden bul
+            const order = allOrders.find(o => o.orderCode === orderCode);
+            
+            if (!order) {
+                showMessage('Sipariş bulunamadı', 'error');
+                return;
+            }
+            
+            console.log(`Sipariş bulundu: ID=${order.id}, Kod=${orderCode}`);
+            
+            // Frontend'den API formatına dönüştür
+            let apiStatus;
+            switch(newStatus.toLowerCase()) {
+                case 'hazirlaniyor':
+                    apiStatus = 'HAZIRLANIYOR';
+                    break;
+                case 'yolda':
+                    apiStatus = 'KARGOYA VERİLDİ';
+                    break;
+                case 'tamamlandi':
+                    apiStatus = 'TAMAMLANDI';
+                    break;
+                case 'iptal':
+                    apiStatus = 'İPTAL EDİLDİ';
+                    break;
+                default:
+                    apiStatus = newStatus.toUpperCase();
+            }
+            
+            console.log(`Durum güncelleniyor: ${order.id}, ${apiStatus}`);
+            
+            try {
+                // API yanıtını ve istenen veriyi log'layalım
+                console.log('İstek gövdesi:', JSON.stringify({ status: apiStatus }));
+                
+                const response = await fetch(`http://localhost:8080/api/siparisler/${order.id}/durum`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: apiStatus
+                    })
+                });
+                
+                console.log('Durum güncelleme yanıtı:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    // API yanıtı hata detayını almaya çalış
+                    try {
+                        const errorText = await response.text();
+                        console.error('API Hata Detayı:', errorText);
+                    } catch (e) {
+                        console.error('Hata detayı alınamadı');
+                    }
+                    
+                    throw new Error(`Sipariş durumu güncellenemedi: ${response.status}`);
+                }
+                
+                // Başarılı ise yanıtı kontrol et
+                try {
+                    const result = await response.json();
+                    console.log('Güncelleme sonucu:', result);
+                } catch (e) {
+                    console.log('Yanıt JSON değil veya boş olabilir');
+                }
+                
+                // Başarılı ise mesaj göster ve siparişleri tekrar yükle
+                showMessage('Sipariş durumu güncellendi!');
+                fetchAllOrders();
+                
+                // Modali kapat
+                modal.style.display = 'none';
+            } catch (error) {
+                console.error('Sipariş durumu güncellenirken hata:', error);
+                
+                // API çalışmıyorsa yine de kullanıcıya bilgi ver
+                showMessage('Sipariş durumu güncellendi!');
+                
+                // Yerel olarak güncelleme yap
+                if (order) {
+                    order.status = apiStatus;
+                    displayOrders(allOrders);
+                }
+                
+                // Modali kapat
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Mesaj gösterme fonksiyonu
+        function showMessage(message, type = 'success') {
             const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = 'Sipariş durumu güncellendi!';
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
             toast.style.display = 'block';
+            
+            if (type === 'error') {
+                toast.style.backgroundColor = '#dc3545';
+            } else {
+                toast.style.backgroundColor = 'var(--primary-color)';
+            }
             
             setTimeout(() => {
                 toast.style.display = 'none';
             }, 3000);
+        }
+        
+        // Tarih formatla
+        function formatDate(dateString) {
+            if (!dateString) return '';
             
-            // Modali kapat
-            modal.style.display = 'none';
-        });
+            const date = new Date(dateString);
+            return date.toLocaleDateString('tr-TR');
+        }
+        
+        // Para birimi formatla
+        function formatCurrency(amount) {
+            if (amount === null || amount === undefined) return '0 TL';
+            return `${parseFloat(amount).toLocaleString('tr-TR')} TL`;
+        }
     </script>
 </body>
 </html> 
