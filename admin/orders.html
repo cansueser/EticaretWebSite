@@ -237,124 +237,209 @@
 
             <!-- Siparişler Tablosu -->
             <div style="background-color: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="overflow-x: auto;">
-                    <table class="table" style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Sipariş Kodu</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Müşteri</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Tarih</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Toplam</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Durum</th>
-                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body">
-                            <!-- Örnek sipariş satırları -->
-                            <tr>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">ORD12345</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Ahmet Yılmaz</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">01.05.2025</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">1.250 TL</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <span class="status-badge status-hazirlaniyor">Hazırlanıyor</span>
-                                </td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12345">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">ORD12346</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Mehmet Demir</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">30.04.2025</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">3.560 TL</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <span class="status-badge status-yolda">Kargoda</span>
-                                </td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12346">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">ORD12347</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Ayşe Kaya</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">28.04.2025</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">980 TL</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <span class="status-badge status-tamamlandi">Tamamlandı</span>
-                                </td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12347">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">ORD12348</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Fatma Şahin</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">27.04.2025</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">2.150 TL</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <span class="status-badge status-iptal">İptal Edildi</span>
-                                </td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12348">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">ORD12349</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">Mustafa Aydın</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">25.04.2025</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">4.750 TL</td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <span class="status-badge status-tamamlandi">Tamamlandı</span>
-                                </td>
-                                <td style="padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6;">
-                                    <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12349">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="page-header" style="margin-bottom: 20px;">
+                    <h2 style="color: var(--secondary-color);">Sipariş Bilgileri</h2>
                 </div>
-
-                <!-- Sayfalama -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-                    <div>
-                        <span style="color: var(--gray-color);">Toplam 24 sipariş | Gösterilen: 1-5</span>
+                
+                <div style="display: grid; gap: 20px;">
+                    <!-- Örnek sipariş 1 -->
+                    <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Sipariş Kodu:</span> ORD12345
+                        </div>
+                        <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Ürünler:</span>
+                            <div style="margin-top: 5px; padding-left: 10px;">
+                                <div style="padding: 3px 0;">• ASUS VivoBook 15 Laptop (x1)</div>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Tarih:</span> 01.05.2025
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Müşteri:</span> Ahmet Yılmaz
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Toplam:</span> 1.250 TL
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Durum:</span> 
+                                <span class="status-badge status-hazirlaniyor">Hazırlanıyor</span>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; text-align: right;">
+                            <span style="font-weight: 600;">İşlemler:</span>
+                            <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12345">
+                                <i class="fas fa-eye"></i> Detay
+                            </button>
+                            <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 5px;">
-                        <button style="background-color: var(--light-gray); border: none; color: var(--secondary-color); padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button style="background-color: var(--primary-color); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer;">1</button>
-                        <button style="background-color: var(--light-gray); border: none; color: var(--secondary-color); padding: 5px 10px; border-radius: 4px; cursor: pointer;">2</button>
-                        <button style="background-color: var(--light-gray); border: none; color: var(--secondary-color); padding: 5px 10px; border-radius: 4px; cursor: pointer;">3</button>
-                        <button style="background-color: var(--light-gray); border: none; color: var(--secondary-color); padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
+                    
+                    <!-- Örnek sipariş 2 -->
+                    <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Sipariş Kodu:</span> ORD12346
+                        </div>
+                        <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Ürünler:</span>
+                            <div style="margin-top: 5px; padding-left: 10px;">
+                                <div style="padding: 3px 0;">• Samsung Galaxy S21 (x1)</div>
+                                <div style="padding: 3px 0;">• Telefon Kılıfı (x2)</div>
+                                <div style="padding: 3px 0;">• Ekran Koruyucu (x1)</div>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Tarih:</span> 30.04.2025
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Müşteri:</span> Mehmet Demir
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Toplam:</span> 3.560 TL
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Durum:</span> 
+                                <span class="status-badge status-yolda">Kargoda</span>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; text-align: right;">
+                            <span style="font-weight: 600;">İşlemler:</span>
+                            <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12346">
+                                <i class="fas fa-eye"></i> Detay
+                            </button>
+                            <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Örnek sipariş 3 -->
+                    <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Sipariş Kodu:</span> ORD12347
+                        </div>
+                        <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Ürünler:</span>
+                            <div style="margin-top: 5px; padding-left: 10px;">
+                                <div style="padding: 3px 0;">• Bluetooth Kulaklık (x1)</div>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Tarih:</span> 28.04.2025
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Müşteri:</span> Ayşe Kaya
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Toplam:</span> 980 TL
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Durum:</span> 
+                                <span class="status-badge status-tamamlandi">Tamamlandı</span>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; text-align: right;">
+                            <span style="font-weight: 600;">İşlemler:</span>
+                            <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12347">
+                                <i class="fas fa-eye"></i> Detay
+                            </button>
+                            <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Örnek sipariş 4 -->
+                    <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Sipariş Kodu:</span> ORD12348
+                        </div>
+                        <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Ürünler:</span>
+                            <div style="margin-top: 5px; padding-left: 10px;">
+                                <div style="padding: 3px 0;">• Elektrikli Süpürge (x1)</div>
+                                <div style="padding: 3px 0;">• Yedek Filtre Seti (x1)</div>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Tarih:</span> 27.04.2025
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Müşteri:</span> Fatma Şahin
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Toplam:</span> 2.150 TL
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Durum:</span> 
+                                <span class="status-badge status-iptal">İptal Edildi</span>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; text-align: right;">
+                            <span style="font-weight: 600;">İşlemler:</span>
+                            <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12348">
+                                <i class="fas fa-eye"></i> Detay
+                            </button>
+                            <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Örnek sipariş 5 -->
+                    <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #f8f9fa; padding: 10px 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Sipariş Kodu:</span> ORD12349
+                        </div>
+                        <div style="padding: 15px; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-weight: 600;">Ürünler:</span>
+                            <div style="margin-top: 5px; padding-left: 10px;">
+                                <div style="padding: 3px 0;">• Apple Watch Series 7 (x1)</div>
+                                <div style="padding: 3px 0;">• Silikon Kayış (x2)</div>
+                                <div style="padding: 3px 0;">• Şarj Standı (x1)</div>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Tarih:</span> 25.04.2025
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Müşteri:</span> Mustafa Aydın
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #e9ecef; display: flex;">
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Toplam:</span> 4.750 TL
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600;">Durum:</span> 
+                                <span class="status-badge status-tamamlandi">Tamamlandı</span>
+                            </div>
+                        </div>
+                        <div style="padding: 10px 15px; text-align: right;">
+                            <span style="font-weight: 600;">İşlemler:</span>
+                            <button class="btn-detail" style="background: transparent; border: none; color: var(--primary-color); cursor: pointer;" data-order-id="ORD12349">
+                                <i class="fas fa-eye"></i> Detay
+                            </button>
+                            <button style="background: transparent; border: none; color: var(--primary-color); cursor: pointer; margin-left: 10px;">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
